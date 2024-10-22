@@ -1,4 +1,4 @@
-package ar.utn.frc.edu.backend.entities;
+package com.example.tpVehiculos.entitites;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
