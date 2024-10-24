@@ -32,12 +32,12 @@ public class Empleados {
 
     // Conexiones
 
-    @OneToMany(mappedBy = "empleados")
+    @OneToMany(mappedBy = "empleado")
     private List<Pruebas> pruebas;
 
 
-
-
+    public Empleados(Long idEmpleado) {
+    }
 }
 
 

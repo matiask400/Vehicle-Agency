@@ -36,7 +36,7 @@ public class Interesados {
     private String apellido;
 
     @Column(name = "restringido")
-    private Long restringido;
+    private boolean restringido;
 
     @Column(name = "nro_licencia")
     private Long nroLicencia;
@@ -46,7 +46,7 @@ public class Interesados {
 
     //relaciones
 
-    @OneToMany(mappedBy = "interesados")
+    @OneToMany(mappedBy = "interesado")
     private List<Pruebas> pruebas ;
 
 }

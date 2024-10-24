@@ -28,7 +28,7 @@ public class Modelos {
     @Column(name = "descripcion")
     private String descripcion;
 
-    @OneToMany(mappedBy = "modelos") //nombre coinccide con clase
+    @OneToMany(mappedBy = "modelo") //nombre coinccide con clase
     private List<Vehiculos> vehiculos;
 
 }

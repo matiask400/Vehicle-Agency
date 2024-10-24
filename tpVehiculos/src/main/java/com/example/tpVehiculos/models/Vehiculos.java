@@ -35,4 +35,6 @@ public class Vehiculos {
     @OneToMany
     private List<Posiciones> posiciones;
 
+    public Vehiculos(Long idVehiculo) {
+    }
 }

@@ -23,7 +23,7 @@ public class Marcas {
     @Column (name = "nombre")
     private String nombre;
 
-    @OneToMany(mappedBy = "marcas")
+    @OneToMany(mappedBy = "marca")
     private List<Modelos> modelos;
 
 
