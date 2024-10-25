@@ -42,7 +42,7 @@ public class PruebaController {
      * @param fechaHora Fecha y hora para verificar las pruebas en curso.
      * @return Lista de pruebas en curso o mensaje de error en caso de excepción.
      */
-    @GetMapping("/api/pruebas/en-curso")
+    @GetMapping("/en-curso")
     public ResponseEntity<?> listarPruebasEnCurso(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaHora) {
         try {
