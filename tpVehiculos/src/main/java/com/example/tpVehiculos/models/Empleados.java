@@ -17,8 +17,7 @@ import java.util.List;
 
 public class Empleados {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long legajo;
 
     @Column(name = "nombre")

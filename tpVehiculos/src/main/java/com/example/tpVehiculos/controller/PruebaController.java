@@ -21,16 +21,17 @@ public class PruebaController {
      * @return La prueba creada o un mensaje de error si falla alguna validación.
      */
     @PostMapping
-    public ResponseEntity<Pruebas> crearPrueba(
+    public ResponseEntity<String> crearPrueba(
             @RequestParam Long idVehiculo,
             @RequestParam Long idInteresado,
             @RequestParam Long idEmpleado) {
         try {
             Pruebas nuevaPrueba = pruebaService.crearPrueba(idVehiculo, idInteresado, idEmpleado);
-            return ResponseEntity.ok(nuevaPrueba);
+            return ResponseEntity.ok(nuevaPrueba.toString());
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
         }
+
     }
 }
 

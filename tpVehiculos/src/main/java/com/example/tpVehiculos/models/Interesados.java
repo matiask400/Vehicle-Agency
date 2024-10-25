@@ -19,8 +19,7 @@ import java.util.List;
 
 public class Interesados {
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "tipo_documento")
@@ -44,9 +43,8 @@ public class Interesados {
     @Column(name = "fecha_vencimiento_licencia")
     private LocalDate fechaVencimientoLicencia;
 
-    //relaciones
-
-    @OneToMany(mappedBy = "interesado")
-    private List<Pruebas> pruebas ;
+    // relaciones
+    @OneToMany(mappedBy = "interesado", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pruebas> pruebas;
 
 }

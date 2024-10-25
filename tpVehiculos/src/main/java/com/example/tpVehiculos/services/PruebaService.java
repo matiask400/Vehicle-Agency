@@ -7,13 +7,13 @@ import com.example.tpVehiculos.models.Empleados;
 import com.example.tpVehiculos.repositories.PruebasDAO;
 import com.example.tpVehiculos.repositories.InteresadoDAO;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
-
 
 
 @Service
@@ -25,6 +25,7 @@ public class PruebaService {
     @Autowired
     private InteresadoDAO interesadoDAO;
 
+    @Transactional(readOnly = false)
     public Pruebas crearPrueba(Long idVehiculo, Long idInteresado, Long idEmpleado) {
         Interesados interesados = interesadoDAO.findById(idInteresado)
                 .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
