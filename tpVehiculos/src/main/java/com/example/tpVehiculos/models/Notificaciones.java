@@ -1,7 +1,7 @@
 package com.example.tpVehiculos.models;
 
 import jakarta.persistence.*;
-import java.util.List;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +12,13 @@ public class Notificaciones {
     private Long id;
     private String message;
     private LocalDateTime timestamp;
+
+    public Notificaciones(Object o, String mensaje, LocalDateTime now, String telefono) {
+    }
+
+    public Notificaciones() {
+
+    }
 
     // Getters y Setters
     public String getMessage() {
