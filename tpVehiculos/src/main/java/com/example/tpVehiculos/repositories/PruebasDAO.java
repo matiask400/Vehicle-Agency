@@ -13,10 +13,22 @@ import java.util.Optional;
 @Repository
 public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
 
+    // Consultar pruebas activas por vehículo
     @Query("SELECT p FROM Pruebas p WHERE p.vehiculo.id = :idVehiculo AND p.fechaHoraFin IS NULL")
     Optional<Pruebas> findPruebaActivaByVehiculo(@Param("idVehiculo") Long idVehiculo);
 
-    // New query to find all ongoing tests at a specific time
+    // Consultar todas las pruebas con exceso de límite
+    List<Pruebas> findByExcesoLimite(boolean excesoLimite);
+
+    // Consultar incidentes para un empleado específico usando la convención correcta
+    List<Pruebas> findByEmpleado_IdAndExcesoLimite(Long empleadoId, boolean excesoLimite);
+
+    // Consultar pruebas en curso en un momento específico
     @Query("SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)")
     List<Pruebas> findPruebasEnCurso(@Param("fechaHora") LocalDateTime fechaHora);
+
+    // Consultar todas las pruebas realizadas por un vehículo
+    List<Pruebas> findByVehiculoId(Long idVehiculo);
+
+    List<Pruebas> findByEmpleadoIdAndExcesoLimite(Long idEmpleado, boolean b);
 }

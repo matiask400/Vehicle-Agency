@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import java.util.Objects;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,8 +11,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Pruebas {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,5 +38,7 @@ public class Pruebas {
     @Column(name = "comentarios")
     private String comentarios;
 
-
+    // Nuevo campo para registrar si hubo exceso de límites en la prueba
+    @Column(name = "exceso_limite")
+    private boolean excesoLimite;
 }
