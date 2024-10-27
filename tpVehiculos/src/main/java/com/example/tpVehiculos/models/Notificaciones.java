@@ -1,13 +1,11 @@
-package com.example.tpVehiculos.entities;
+package com.example.tpVehiculos.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.*;
+import java.util.List;
 import java.time.LocalDateTime;
 
 @Entity
-public class Notification {
+public class Notificaciones {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,3 +30,4 @@ public class Notification {
         this.timestamp = timestamp;
     }
 }
+
