@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/notificaciones")
+@RequestMapping("/api/vehiculos/notificaciones")
 @RequiredArgsConstructor
 public class NotificacionController {
 

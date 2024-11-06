@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/promociones")
+@RequestMapping("/api/vehiculos/promociones")
 @RequiredArgsConstructor
 public class PromocionController {
 
