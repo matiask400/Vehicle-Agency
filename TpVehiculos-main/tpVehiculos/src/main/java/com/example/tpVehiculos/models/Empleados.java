@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-
 import java.util.List;
 
 @Entity
@@ -13,12 +11,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class Empleados {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long legajo;
+    @Column(name = "legajo")
+    private Long legajo; // Define legajo como la clave primaria
 
     @Column(name = "nombre")
     private String nombre;
@@ -30,15 +27,10 @@ public class Empleados {
     private Long telefonoContacto;
 
     // Conexiones
-
     @OneToMany(mappedBy = "empleado")
     private List<Pruebas> pruebas;
 
-
-    public Empleados(Long idEmpleado) {
+    public Empleados(Long legajo) {
+        this.legajo = legajo; // Constructor con el campo legajo como clave primaria
     }
 }
-
-
-
-

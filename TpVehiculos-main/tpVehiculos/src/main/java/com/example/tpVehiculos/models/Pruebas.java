@@ -32,13 +32,10 @@ public class Pruebas {
     @Column(name = "fecha_hora_inicio")
     private LocalDateTime fechaHoraInicio;
 
+    // Asigna un valor predeterminado a fechaHoraFin para evitar el error
     @Column(name = "fecha_hora_fin")
-    private LocalDateTime fechaHoraFin;
+    private LocalDateTime fechaHoraFin = LocalDateTime.now(); // o LocalDateTime.MIN, según la lógica de negocio
 
     @Column(name = "comentarios")
     private String comentarios;
-
-    // Nuevo campo para registrar si hubo exceso de límites en la prueba
-    @Column(name = "exceso_limite")
-    private boolean excesoLimite;
 }

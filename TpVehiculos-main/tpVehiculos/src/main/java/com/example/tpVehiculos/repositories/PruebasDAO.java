@@ -17,18 +17,12 @@ public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
     @Query("SELECT p FROM Pruebas p WHERE p.vehiculo.id = :idVehiculo AND p.fechaHoraFin IS NULL")
     Optional<Pruebas> findPruebaActivaByVehiculo(@Param("idVehiculo") Long idVehiculo);
 
-    // Consultar todas las pruebas con exceso de límite
-    List<Pruebas> findByExcesoLimite(boolean excesoLimite);
-
-    // Consultar incidentes para un empleado específico usando la convención correcta
-    List<Pruebas> findByEmpleado_IdAndExcesoLimite(Long empleadoId, boolean excesoLimite);
-
     // Consultar pruebas en curso en un momento específico
     @Query("SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)")
     List<Pruebas> findPruebasEnCurso(@Param("fechaHora") LocalDateTime fechaHora);
 
-    // Consultar todas las pruebas realizadas por un vehículo
-    List<Pruebas> findByVehiculoId(Long idVehiculo);
+    // Cambiar para que use legajo en lugar de id en la referencia al empleado
+    List<Pruebas> findByEmpleado_Legajo(Long legajoEmpleado);
 
-    List<Pruebas> findByEmpleadoIdAndExcesoLimite(Long idEmpleado, boolean b);
+    List<Pruebas> findByVehiculoId(Long idVehiculo);
 }
