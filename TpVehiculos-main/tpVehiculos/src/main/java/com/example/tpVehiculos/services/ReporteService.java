@@ -28,8 +28,8 @@ public class ReporteService {
 
     // ii. Detalle de incidentes para un empleado (sin `exceso_limite`, define una lógica alternativa si es necesario)
     public List<Pruebas> obtenerIncidentesPorEmpleado(Long legajoEmpleado) {
-        // Ahora utiliza findByEmpleado_Legajo para buscar por legajo en lugar de id
-        return pruebasDAO.findByEmpleado_Legajo(legajoEmpleado);
+        // Utiliza el método correcto para buscar por legajo en lugar de id
+        return pruebasDAO.findByEmpleadoLegajo(legajoEmpleado); // Cambiado a findByEmpleadoLegajo
     }
 
     // iii. Cantidad de kilómetros de prueba que recorrió un vehículo en un período
@@ -57,7 +57,7 @@ public class ReporteService {
     private double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
         final int R = 6371; // Radio de la Tierra en km
         double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
+        double dLon = Math.toRadians(lon1 - lon2);
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
                         Math.sin(dLon / 2) * Math.sin(dLon / 2);

@@ -21,8 +21,9 @@ public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
     @Query("SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)")
     List<Pruebas> findPruebasEnCurso(@Param("fechaHora") LocalDateTime fechaHora);
 
-    // Cambiar para que use legajo en lugar de id en la referencia al empleado
-    List<Pruebas> findByEmpleado_Legajo(Long legajoEmpleado);
+    // Modificado para que funcione con el atributo 'legajo' de Empleado correctamente
+    @Query("SELECT p FROM Pruebas p WHERE p.empleado.legajo = :legajoEmpleado")
+    List<Pruebas> findByEmpleadoLegajo(@Param("legajoEmpleado") Long legajoEmpleado);
 
     List<Pruebas> findByVehiculoId(Long idVehiculo);
 }

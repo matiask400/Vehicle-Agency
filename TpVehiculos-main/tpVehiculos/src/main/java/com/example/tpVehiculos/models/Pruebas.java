@@ -32,9 +32,9 @@ public class Pruebas {
     @Column(name = "fecha_hora_inicio")
     private LocalDateTime fechaHoraInicio;
 
-    // Asigna un valor predeterminado a fechaHoraFin para evitar el error
-    @Column(name = "fecha_hora_fin")
-    private LocalDateTime fechaHoraFin = LocalDateTime.now(); // o LocalDateTime.MIN, según la lógica de negocio
+    // Permitir nulos en fechaHoraFin para evitar el error
+    @Column(name = "fecha_hora_fin", nullable = true)
+    private LocalDateTime fechaHoraFin;
 
     @Column(name = "comentarios")
     private String comentarios;

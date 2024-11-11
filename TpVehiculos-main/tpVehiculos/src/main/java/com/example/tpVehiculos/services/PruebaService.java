@@ -7,15 +7,13 @@ import com.example.tpVehiculos.models.Empleados;
 import com.example.tpVehiculos.repositories.PruebasDAO;
 import com.example.tpVehiculos.repositories.InteresadoDAO;
 import com.example.tpVehiculos.repositories.VehiculosDAO;
-import com.example.tpVehiculos.repositories.EmpleadosDAO; // Asegúrate de tener EmpleadosDAO importado
-
+import com.example.tpVehiculos.repositories.EmpleadosDAO;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,44 +29,39 @@ public class PruebaService {
     private VehiculosDAO vehiculosDAO;
 
     @Autowired
-    private EmpleadosDAO empleadosDAO; // Repositorio de Empleados para verificar existencia
+    private EmpleadosDAO empleadosDAO;
 
-    @Transactional(readOnly = false)
+    @Transactional
     public Pruebas crearPrueba(Long idVehiculo, Long idInteresado, Long idEmpleado) {
-        // Verifica si el interesado existe en la base de datos
-        Interesados interesados = interesadoDAO.findById(idInteresado)
-                .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
+        try {
+            Interesados interesado = interesadoDAO.findById(idInteresado)
+                    .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
 
-        // Verifica si el interesado tiene licencia válida y no está restringido
-        if (interesados.isRestringido() || interesados.getFechaVencimientoLicencia().isBefore(LocalDate.now())) {
-            throw new RuntimeException("Interesado con licencia vencida o restringido.");
+            if (interesado.isRestringido() || interesado.getFechaVencimientoLicencia().isBefore(LocalDate.now())) {
+                throw new RuntimeException("Interesado con licencia vencida o restringido.");
+            }
+
+            Vehiculos vehiculo = vehiculosDAO.findById(idVehiculo)
+                    .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+
+            Empleados empleado = empleadosDAO.findById(idEmpleado)
+                    .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+            Optional<Pruebas> pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
+            if (pruebaActiva.isPresent()) {
+                throw new RuntimeException("El vehículo ya está siendo probado.");
+            }
+
+            Pruebas nuevaPrueba = new Pruebas();
+            nuevaPrueba.setVehiculo(vehiculo);
+            nuevaPrueba.setInteresado(interesado);
+            nuevaPrueba.setEmpleado(empleado);
+            nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
+            nuevaPrueba.setFechaHoraFin(null); // Permitir que fechaHoraFin sea nulo al crear la prueba
+
+            return pruebasDAO.save(nuevaPrueba);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear la prueba: " + e.getMessage());
         }
-
-        // Verifica si el vehículo existe en la base de datos
-        Vehiculos vehiculo = vehiculosDAO.findById(idVehiculo)
-                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
-
-        // Verifica si el empleado existe en la base de datos
-        Empleados empleado = empleadosDAO.findById(idEmpleado)
-                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
-
-        // Verifica si el vehículo ya está siendo probado
-        Optional<Pruebas> pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
-        if (pruebaActiva.isPresent()) {
-            throw new RuntimeException("El vehículo ya está siendo probado.");
-        }
-
-        // Crea la nueva prueba con los datos validados
-        Pruebas nuevaPrueba = new Pruebas();
-        nuevaPrueba.setVehiculo(vehiculo); // Asigna el objeto Vehiculos verificado
-        nuevaPrueba.setInteresado(interesados);
-        nuevaPrueba.setEmpleado(empleado); // Asigna el objeto Empleados verificado
-        nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
-
-        return pruebasDAO.save(nuevaPrueba);
-    }
-
-    public List<Pruebas> listarPruebasEnCurso(LocalDateTime fechaHora) {
-        return pruebasDAO.findPruebasEnCurso(fechaHora);
     }
 }
