@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -64,10 +63,5 @@ public class PruebaService {
         } catch (Exception e) {
             throw new RuntimeException("Error al crear la prueba: " + e.getMessage());
         }
-    }
-
-    // Método para listar pruebas en curso
-    public List<Pruebas> listarPruebasEnCurso(LocalDateTime fechaHora) {
-        return pruebasDAO.findPruebasEnCurso(fechaHora);
     }
 }
