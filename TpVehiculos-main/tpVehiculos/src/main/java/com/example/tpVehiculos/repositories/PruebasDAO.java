@@ -26,4 +26,6 @@ public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
     List<Pruebas> findByEmpleadoLegajo(@Param("legajoEmpleado") Long legajoEmpleado);
 
     List<Pruebas> findByVehiculoId(Long idVehiculo);
+
+    List<Pruebas> findAllByFechaHoraInicioBeforeAndFechaHoraFinIsNull(@Param("fechaHora") LocalDateTime fechaHora);
 }
