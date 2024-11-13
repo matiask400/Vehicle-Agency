@@ -68,6 +68,6 @@ public class PruebaService {
     }
 
     public List<Pruebas> listarPruebasEnCurso(String fechaHora) {
-        return pruebasDAO.findAllByFechaHoraInicioBeforeAndFechaHoraFinIsNull(fechaHora);
+        return pruebasDAO.findPruebasEnCurso(fechaHora);
     }
 }
