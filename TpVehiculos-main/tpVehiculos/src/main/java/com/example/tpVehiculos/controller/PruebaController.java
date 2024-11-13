@@ -40,29 +40,5 @@ public class PruebaController {
             return ResponseEntity.status(500).body("Error al crear la prueba: " + e.getMessage());
         }
     }
-
-    /**
-     * Lists all `Pruebas` entities that are currently in progress.
-     *
-     * @param fechaHora the date and time to filter the `Pruebas` entities
-     * @return ResponseEntity containing the list of `Pruebas` entities in progress or an error message
-     */
-    @GetMapping("/en-curso")
-    public ResponseEntity<?> listarPruebasEnCurso(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaHora) {
-        try {
-            List<Pruebas> pruebasEnCurso = pruebaService.listarPruebasEnCurso(fechaHora);
-            return ResponseEntity.ok(pruebasEnCurso);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(500).body("Error al listar pruebas en curso: " + e.getMessage());
-        }
-    }
 }
-
-// curl -X POST "http://localhost:8080/api/vehiculos/pruebas" \
-//     -d "idVehiculo=1" \
-//     -d "idInteresado=2" \
-//     -d "idEmpleado=3"
-// ---------------------------------------------------------------------------
-// curl -X GET "http://localhost:8080/api/vehiculos/pruebas/en-curso" \
-//     -d "fechaHora=2023-10-01T10:00:00"
+// curl -X POST "http://localhost:8083/api/vehiculos/pruebas?idVehiculo=1&idInteresado=3&idEmpleado=3" \

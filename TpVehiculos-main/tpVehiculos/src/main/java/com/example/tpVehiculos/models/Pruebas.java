@@ -30,12 +30,12 @@ public class Pruebas {
     private Empleados empleado;
 
     @Column(name = "fecha_hora_inicio")
-    private LocalDateTime fechaHoraInicio;
+    private String fechaHoraInicio;
 
-    // Permitir nulos en fechaHoraFin para evitar el error
     @Column(name = "fecha_hora_fin", nullable = true)
-    private LocalDateTime fechaHoraFin;
+    private String fechaHoraFin;
 
     @Column(name = "comentarios")
     private String comentarios;
 }
+// Se mantienen fechas como string por ISO 801 y no se utilizan LocalDateTime (si hay otra forma hacer)

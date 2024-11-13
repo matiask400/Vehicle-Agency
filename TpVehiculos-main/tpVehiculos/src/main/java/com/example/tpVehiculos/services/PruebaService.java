@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,8 +58,8 @@ public class PruebaService {
             nuevaPrueba.setVehiculo(vehiculo);
             nuevaPrueba.setInteresado(interesado);
             nuevaPrueba.setEmpleado(empleado);
-            nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
-            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(1970, 1, 1, 0, 0)); // Establecer un valor predeterminado -1 para fechaHoraFin
+            nuevaPrueba.setFechaHoraInicio(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
+            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(1970, 1, 1, 0, 0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))); // Establecer un valor predeterminado -1 para fechaHoraFin
             pruebasDAO.save(nuevaPrueba);
             return nuevaPrueba;
         } catch (Exception e) {
@@ -66,7 +67,7 @@ public class PruebaService {
         }
     }
 
-    public List<Pruebas> listarPruebasEnCurso(LocalDateTime fechaHora) {
+    public List<Pruebas> listarPruebasEnCurso(String fechaHora) {
         return pruebasDAO.findAllByFechaHoraInicioBeforeAndFechaHoraFinIsNull(fechaHora);
     }
 }
