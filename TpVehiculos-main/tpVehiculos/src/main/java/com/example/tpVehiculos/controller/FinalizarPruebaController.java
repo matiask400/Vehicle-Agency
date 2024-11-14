@@ -1,3 +1,5 @@
+package com.example.tpVehiculos.controller;
+
 import com.example.tpVehiculos.services.PruebaService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
