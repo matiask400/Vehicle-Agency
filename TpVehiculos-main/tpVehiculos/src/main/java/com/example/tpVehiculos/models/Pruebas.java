@@ -30,10 +30,10 @@ public class Pruebas {
     private Empleados empleado;
 
     @Column(name = "fecha_hora_inicio")
-    private String fechaHoraInicio;
+    private LocalDateTime fechaHoraInicio;
 
     @Column(name = "fecha_hora_fin", nullable = true)
-    private String fechaHoraFin;
+    private LocalDateTime fechaHoraFin;
 
     @Column(name = "comentarios")
     private String comentarios;

@@ -58,8 +58,8 @@ public class PruebaService {
             nuevaPrueba.setVehiculo(vehiculo);
             nuevaPrueba.setInteresado(interesado);
             nuevaPrueba.setEmpleado(empleado);
-            nuevaPrueba.setFechaHoraInicio(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS")));
-            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(1970, 1, 1, 0, 0).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"))); // Establecer un valor predeterminado -1 para fechaHoraFin
+            nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
+            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(1970, 1, 1, 0, 0)); // Establecer un valor predeterminado -1 para fechaHoraFin
             pruebasDAO.save(nuevaPrueba);
             return nuevaPrueba;
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class PruebaService {
         }
     }
 
-    public List<Pruebas> listarPruebasEnCurso(String fechaHora) {
+    public List<Pruebas> listarPruebasEnCurso(LocalDateTime fechaHora) {
         return pruebasDAO.findPruebasEnCurso(fechaHora);
     }
 }

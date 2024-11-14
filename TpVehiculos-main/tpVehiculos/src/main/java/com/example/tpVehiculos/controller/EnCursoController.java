@@ -14,7 +14,7 @@ import java.util.List;
  * REST controller for managing vehicle tests in progress.
  */
 @RestController
-@RequestMapping("/api/vehiculos/pruebas-en-curso")
+@RequestMapping("/api/vehiculos/encurso")
 public class EnCursoController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class EnCursoController {
      */
     @GetMapping
     public ResponseEntity<?> listarPruebasEnCurso(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) String fechaHora) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime fechaHora) {
         try {
             List<Pruebas> pruebasEnCurso = pruebaService.listarPruebasEnCurso(fechaHora);
             return ResponseEntity.ok(pruebasEnCurso);

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,7 @@ public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
 
     // Consultar pruebas en curso en un momento específico
     @Query("SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)")
-    List<Pruebas> findPruebasEnCurso(@Param("fechaHora") String fechaHora);
+    List<Pruebas> findPruebasEnCurso(@Param("fechaHora") LocalDateTime fechaHora);
 
     // Modificado para que funcione con el atributo 'legajo' de Empleado correctamente
     @Query("SELECT p FROM Pruebas p WHERE p.empleado.legajo = :legajoEmpleado")

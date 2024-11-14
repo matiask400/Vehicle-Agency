@@ -1,5 +1,6 @@
 package com.example.tpVehiculos.controller;
 
+import com.example.tpVehiculos.controller.DTO.DTOPruebas;
 import com.example.tpVehiculos.models.Pruebas;
 import com.example.tpVehiculos.services.PruebaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,8 @@ public class PruebaController {
             @RequestParam Long idEmpleado) {
         try {
             Pruebas nuevaPrueba = pruebaService.crearPrueba(idVehiculo, idInteresado, idEmpleado);
-            return ResponseEntity.ok(nuevaPrueba);
+            DTOPruebas DTOPruebas = new DTOPruebas(nuevaPrueba);
+            return ResponseEntity.ok(DTOPruebas);
         } catch (RuntimeException e) {
             return ResponseEntity.status(500).body("Error al crear la prueba: " + e.getMessage());
         }
