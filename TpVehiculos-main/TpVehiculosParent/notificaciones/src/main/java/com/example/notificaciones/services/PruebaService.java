@@ -1,21 +1,7 @@
 package com.example.notificaciones.services;
 
-import com.example.tpVehiculos.models.Pruebas;
-import com.example.tpVehiculos.models.Interesados;
-import com.example.tpVehiculos.models.Vehiculos;
-import com.example.tpVehiculos.models.Empleados;
-import com.example.tpVehiculos.repositories.PruebasDAO;
-import com.example.tpVehiculos.repositories.InteresadoDAO;
-import com.example.tpVehiculos.repositories.VehiculosDAO;
-import com.example.tpVehiculos.repositories.EmpleadosDAO;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.notificaciones.controller.DTO.DTOConfiguracion;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PruebaService {
@@ -28,7 +14,7 @@ public class PruebaService {
 
     public boolean verificarPosicion(PosicionDTO posicionDTO) {
         // Obtener configuración desde la API
-        Configuracion configuracion = configuracionService.obtenerConfiguracion();
+        DTOConfiguracion configuracion = configuracionService.obtenerConfiguracion();
 
         // Calcular distancia al centro de la agencia
         double distancia = calcularDistanciaEuclidea(
@@ -43,7 +29,7 @@ public class PruebaService {
         }
 
         // Verificar zonas restringidas
-        for (Configuracion.ZonaRestringida zona : configuracion.getZonasRestringidas()) {
+        for (DTOConfiguracion.ZonaRestringida zona : configuracion.getZonasRestringidas()) {
             if (estaDentroDeZonaPeligrosa(posicionDTO, zona)) {
                 return false;
             }

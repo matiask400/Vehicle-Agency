@@ -20,6 +20,8 @@
     </packaging>
     <modules>
         <module>tpVehiculos</module>
+        <module>notificaciones</module>
+        <module>apiGwTpVehiculos</module>
     </modules>
 
     <properties>
