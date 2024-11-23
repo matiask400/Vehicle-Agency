@@ -27,4 +27,12 @@ public interface PruebasDAO extends JpaRepository<Pruebas, Long> {
 
     List<Pruebas> findByVehiculoId(Long idVehiculo);
 
+    // Consultar pruebas donde se excedieron los límites establecidos
+    List<Pruebas> findByExcesoLimite(boolean excesoLimite);
+
+    // Consultar pruebas donde se excedieron los límites establecidos para un empleado
+    @Query("SELECT p FROM Pruebas p WHERE p.empleado.legajo = :legajoEmpleado AND p.excesoLimite = true")
+    List<Pruebas> findByEmpleadoLegajoAndExcesoLimite(@Param("legajoEmpleado") Long legajoEmpleado);
+
 }
+

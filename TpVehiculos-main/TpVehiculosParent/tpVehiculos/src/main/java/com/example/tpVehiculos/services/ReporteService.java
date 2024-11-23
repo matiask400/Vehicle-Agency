@@ -20,16 +20,14 @@ public class ReporteService {
         this.posicionesDAO = posicionesDAO;
     }
 
-    // i. Reporte de incidentes (sin `exceso_limite`, define una lógica alternativa si es necesario)
+    // i. Reporte de incidentes (pruebas donde se excedieron los límites establecidos)
     public List<Pruebas> obtenerIncidentes() {
-        // Aquí puedes devolver todas las pruebas o definir una lógica alternativa
-        return pruebasDAO.findAll();
+        return pruebasDAO.findByExcesoLimite(true);
     }
 
-    // ii. Detalle de incidentes para un empleado (sin `exceso_limite`, define una lógica alternativa si es necesario)
+    // ii. Detalle de incidentes para un empleado (pruebas donde se excedieron los límites establecidos)
     public List<Pruebas> obtenerIncidentesPorEmpleado(Long legajoEmpleado) {
-        // Utiliza el método correcto para buscar por legajo en lugar de id
-        return pruebasDAO.findByEmpleadoLegajo(legajoEmpleado); // Cambiado a findByEmpleadoLegajo
+        return pruebasDAO.findByEmpleadoLegajoAndExcesoLimite(legajoEmpleado, true);
     }
 
     // iii. Cantidad de kilómetros de prueba que recorrió un vehículo en un período
