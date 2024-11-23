@@ -7,9 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="notificacionesVehiculos" />
+        <module name="notificaciones" />
         <module name="apunte-api-gw-tpVehiculos" />
         <module name="tpVehiculos" />
-        <module name="notificaciones" />
       </profile>
     </annotationProcessing>
   </component>
@@ -18,6 +19,7 @@
       <module name="TpVehiculosParent" options="" />
       <module name="apunte-api-gw-tpVehiculos" options="-parameters" />
       <module name="notificaciones" options="-parameters" />
+      <module name="notificacionesVehiculos" options="-parameters" />
       <module name="tpVehiculos" options="-parameters" />
     </option>
   </component>

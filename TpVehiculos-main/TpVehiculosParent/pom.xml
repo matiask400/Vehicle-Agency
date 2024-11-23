@@ -22,6 +22,7 @@
         <module>tpVehiculos</module>
         <module>notificaciones</module>
         <module>apiGwTpVehiculos</module>
+        <module>notificacionesVehiculos</module>
     </modules>
 
     <properties>
