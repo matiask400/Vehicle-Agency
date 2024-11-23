@@ -40,7 +40,6 @@ public class NotificacionAlertaServiceImpl extends ServiceImpl<NotificacionAlert
 
     public void crearNotificacion(NotificacionAlertaDTO n){
         NotificacionAlerta notificacion = new NotificacionAlerta(n.getMotivo(), n.getMensaje(), n.getVehiculoId());
-
         add(notificacion);
     }
 }

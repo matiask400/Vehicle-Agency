@@ -12,7 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Empleados {
-
     @Id
     @Column(name = "legajo")
     private Long legajo; // Define legajo como la clave primaria
