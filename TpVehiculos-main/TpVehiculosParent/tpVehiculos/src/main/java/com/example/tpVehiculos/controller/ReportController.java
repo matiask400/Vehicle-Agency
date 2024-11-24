@@ -1,39 +1,80 @@
 package com.example.tpVehiculos.controller;
 
-import com.example.tpVehiculos.services.ReporteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.tpVehiculos.services.PosicionesService;
+import com.example.tpVehiculos.services.PruebaService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/api/pruebas")
 public class ReportController {
+    private final PruebaService pruebaService;
+    private final PosicionesService posicionService;
 
-    @Autowired
-    private ReporteService reporteService;
-
-    // i. Incidentes (pruebas donde se excedieron los límites establecidos)
-    @GetMapping("/incidents")
-    public List<IncidenteReporte> getIncidentReports() {
-        return reporteService.getIncidentReports();
+    public ReportController(PruebaService pruebaService,
+                            PosicionesService posicionService) {
+        this.pruebaService = pruebaService;
+        this.posicionService = posicionService;
     }
 
-    @GetMapping("/employee-incidents")
-    public List<IncidentDetail> getIncidentDetailsForEmployee(@RequestParam Long employeeId) {
-        return reporteService.getIncidentDetailsForEmployee(employeeId);
+    // 6a - Reportes de incidentes
+    @GetMapping("/reportesIncidentes")
+    public ResponseEntity<String> obtenerReportesIncidentes() {
+        try {
+            // Llamada al servicio para obtener las pruebas como un String
+            String reportes = pruebaService.obtenerPruebasConIncidentes();
+            // Retorna el reporte con un código HTTP 200
+            return ResponseEntity.ok(reportes);
+        } catch (Exception e) {
+            // Manejo de errores, retorna un mensaje con código 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener los reportes de incidentes.");
+        }
     }
 
-    @GetMapping("/vehicle-kilometers")
-    public double getVehicleKilometers(@RequestParam Long vehicleId, @RequestParam String startDate, @RequestParam String endDate) {
-        return reporteService.getVehicleKilometers(vehicleId, startDate, endDate);
+    //6b - Reportes de incidentes x empleado
+    @GetMapping("/reportesIncidentes/{legajoEmpleado}")
+    public ResponseEntity<String> obtenerReporteIncidentesPorEmpleado(@PathVariable int legajoEmpleado) {
+        String reporte = pruebaService.obtenerPruebasConIncidentesPorLegajo(legajoEmpleado);
+
+        return ResponseEntity.ok(reporte);
     }
 
-    @GetMapping("/vehicle-tests")
-    public List<TestDetail> getVehicleTestDetails(@RequestParam Long vehicleId) {
-        return reportService.getVehicleTestDetails(vehicleId);
+
+    // 6c - Reportes de kilometros
+    @PostMapping("/reporteKm")
+    public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
+
+        Integer vehiculoId = vehiculoDTO.getId();
+        System.out.println(vehiculoId);
+        ReporteDTO reporteDTO = vehiculoDTO.getReporteDTO();
+        Timestamp fechaInicio = reporteDTO.getFechaInicio();
+        System.out.println(fechaInicio);
+        Timestamp fechaFin = reporteDTO.getFechaFin();
+        System.out.println(fechaFin);
+
+        String reporte = posicionService.obtenerCantidadKilometros(vehiculoId, fechaInicio, fechaFin);
+        if (reporte.isEmpty()) {
+            return ResponseEntity.ok("NO HAY PRUEBAS PARA DICHO VEHÍCULO");
+        }
+        return ResponseEntity.ok(reporte);
     }
+
+
+    //6d - Reportes de pruebas x Vehiculos
+    @GetMapping("/reporteVehiculo")
+    public ResponseEntity<String> obtenerReporteIncidentesPorVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
+        String reporte = pruebaService.obtenerPruebasXVehiculo(vehiculoDTO.getPatente());
+
+        if (reporte.isEmpty()) {
+            return ResponseEntity.ok("NO HAY PRUEBAS PARA DICHO VEHICULO");
+        }
+
+        return ResponseEntity.ok(reporte);
+    }
+
+
 }
