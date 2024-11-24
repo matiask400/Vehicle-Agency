@@ -18,7 +18,7 @@ public class ReporteController {
     // i. Reporte de incidentes
     @GetMapping("/incidentes")
     public List<Pruebas> obtenerIncidentes() {
-        return reporteService.obtenerIncidentes();
+        return reporteService.getIncidentReports();
     }
 
     // ii. Detalle de incidentes por empleado

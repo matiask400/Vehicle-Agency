@@ -1,10 +1,9 @@
 package com.example.tpVehiculos.controller;
 
-import com.example.tpVehiculos.models.IncidentReport;
-import com.example.tpVehiculos.models.IncidentDetail;
-import com.example.tpVehiculos.models.TestDetail;
+import com.example.tpVehiculos.services.ReporteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,21 +14,22 @@ import java.util.List;
 public class ReportController {
 
     @Autowired
-    private ReportService reportService;
+    private ReporteService reporteService;
 
+    // i. Incidentes (pruebas donde se excedieron los límites establecidos)
     @GetMapping("/incidents")
-    public List<IncidentReport> getIncidentReports() {
-        return reportService.getIncidentReports();
+    public List<IncidenteReporte> getIncidentReports() {
+        return reporteService.getIncidentReports();
     }
 
     @GetMapping("/employee-incidents")
     public List<IncidentDetail> getIncidentDetailsForEmployee(@RequestParam Long employeeId) {
-        return reportService.getIncidentDetailsForEmployee(employeeId);
+        return reporteService.getIncidentDetailsForEmployee(employeeId);
     }
 
     @GetMapping("/vehicle-kilometers")
     public double getVehicleKilometers(@RequestParam Long vehicleId, @RequestParam String startDate, @RequestParam String endDate) {
-        return reportService.getVehicleKilometers(vehicleId, startDate, endDate);
+        return reporteService.getVehicleKilometers(vehicleId, startDate, endDate);
     }
 
     @GetMapping("/vehicle-tests")

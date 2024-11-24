@@ -21,7 +21,7 @@ public class ReporteService {
     }
 
     // i. Reporte de incidentes (pruebas donde se excedieron los límites establecidos)
-    public List<Pruebas> obtenerIncidentes() {
+    public List<Pruebas> getIncidentReports() {
         return pruebasDAO.findByExcesoLimite(true);
     }
 

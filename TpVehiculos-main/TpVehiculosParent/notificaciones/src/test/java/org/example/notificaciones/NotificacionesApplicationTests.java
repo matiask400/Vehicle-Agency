@@ -1,10 +1,10 @@
-package ar.edu.utn.frc.notificacionesVehiculos;
+package org.example.notificaciones;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TpVehiculosApplicationTests {
+class NotificacionesApplicationTests {
 
 	@Test
 	void contextLoads() {

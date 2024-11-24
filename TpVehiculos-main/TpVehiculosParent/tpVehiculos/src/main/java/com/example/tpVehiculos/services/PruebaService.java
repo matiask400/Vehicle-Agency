@@ -4,10 +4,7 @@ import com.example.tpVehiculos.models.Pruebas;
 import com.example.tpVehiculos.models.Interesados;
 import com.example.tpVehiculos.models.Vehiculos;
 import com.example.tpVehiculos.models.Empleados;
-import com.example.tpVehiculos.repositories.PruebasDAO;
-import com.example.tpVehiculos.repositories.InteresadoDAO;
-import com.example.tpVehiculos.repositories.VehiculosDAO;
-import com.example.tpVehiculos.repositories.EmpleadosDAO;
+import com.example.tpVehiculos.repositories.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +28,12 @@ public class PruebaService {
 
     @Autowired
     private EmpleadosDAO empleadosDAO;
+
+    @Autowired
+    private PosicionesDAO posicionesDAO;
+
+    @Autowired
+
 
     @Transactional
     public Pruebas crearPrueba(Long idVehiculo, Long idInteresado, Long idEmpleado) {
