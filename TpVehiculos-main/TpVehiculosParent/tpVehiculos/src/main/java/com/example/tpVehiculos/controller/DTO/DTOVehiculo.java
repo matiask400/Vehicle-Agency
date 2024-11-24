@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class DTOVehiculo {
     private Integer id;
     private String patente;
+    private org.example.tpi_134.DTOS.DTOReporte dtoReporte;
 }

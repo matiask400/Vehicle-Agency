@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class DTOPosicion {
 
     private Long vehiculoId;    // Identificador del vehículo
-    private double latitud;     // Latitud de la posición del vehículo
-    private double longitud;    // Longitud de la posición del vehículo
+    private Double latitud;     // Latitud de la posición del vehículo
+    private Double longitud;    // Longitud de la posición del vehículo
 }
 

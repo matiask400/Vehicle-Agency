@@ -50,13 +50,15 @@ public class ReportController {
     @PostMapping("/reporteKm")
     public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
 
-        Long vehiculoId = vehiculoDTO.getId();
-        System.out.println(vehiculoId);
-        org.example.tpi_134.DTOS.DTOReporte reporteDTO = vehiculoDTO.getReporteDTO();
-        LocalDateTime fechaInicio = reporteDTO.getFechaInicio();
-        System.out.println(fechaInicio);
-        LocalDateTime fechaFin = reporteDTO.getFechaFin();
-        System.out.println(fechaFin);
+        Long vehiculoId = vehiculoDTO.getId().longValue();
+        org.example.tpi_134.DTOS.DTOReporte reporteDTO = vehiculoDTO.getDtoReporte();
+        LocalDateTime fechaFin = reporteDTO.getFechaFin().toLocalDateTime();
+        LocalDateTime fechaInicio = reporteDTO.getFechaInicio().toLocalDateTime();
+        System.out.println("Fecha inicio: " + fechaInicio);
+        System.out.println("Fecha fin: " + fechaFin);
+        System.out.println("Vehiculo id: " + vehiculoId);
+        System.out.println("DTO: " + reporteDTO);
+
 
         String reporte = posicionService.obtenerCantidadKilometros(vehiculoId, fechaInicio, fechaFin);
         if (reporte.isEmpty()) {
