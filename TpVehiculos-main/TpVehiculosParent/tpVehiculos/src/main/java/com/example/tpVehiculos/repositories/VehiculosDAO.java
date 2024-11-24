@@ -31,7 +31,7 @@ public class VehiculosDAO {
 
 
     // Métodos
-    public Vehiculos findByID(Integer id){
+    public Vehiculos findByID(Long id){
         try {
             return em.find(Vehiculos.class, id);
         } catch (Exception e){

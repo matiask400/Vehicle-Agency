@@ -51,7 +51,7 @@ public class PruebaService {
     @Transactional
     public Pruebas crearPrueba(Long idVehiculo,
                                Long idInteresado,
-                               Long idEmpleado) {
+                               Integer idEmpleado) {
         try {
             Interesados interesado = interesadoDAO.findById(idInteresado)
                     .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
@@ -60,17 +60,18 @@ public class PruebaService {
                 throw new RuntimeException("Interesado con licencia vencida o restringido.");
             }
 
-            Vehiculos vehiculo = vehiculosDAO.findById(idVehiculo)
-                    .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
-
-            Empleados empleado = empleadosDAO.findById(idEmpleado)
-                    .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
-
-            Optional<Pruebas> pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
-            if (pruebaActiva.isPresent()) {
-                throw new RuntimeException("El vehículo ya está siendo probado.");
+            Vehiculos vehiculo = vehiculosDAO.findByID(idVehiculo);
+            if (vehiculo == null) {
+                throw new RuntimeException("Prueba no encontrada");
             }
-
+            Empleados empleado = empleadosDAO.findByLegajo(idEmpleado);
+            if (empleado == null) {
+                throw new RuntimeException("Prueba no encontrada");
+            }
+            Pruebas pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
+            if (pruebaActiva == null) {
+                throw new RuntimeException("El vehiculo ya esta siendo activado");
+            }
             Pruebas nuevaPrueba = new Pruebas();
             nuevaPrueba.setVehiculo(vehiculo);
             nuevaPrueba.setInteresado(interesado);
@@ -90,8 +91,10 @@ public class PruebaService {
 
     @Transactional
     public void finalizarPrueba(Long idPrueba, String comentario) {
-        Pruebas prueba = pruebasDAO.findById(idPrueba)
-                .orElseThrow(() -> new RuntimeException("Prueba no encontrada"));
+        Pruebas prueba = pruebasDAO.findByID(idPrueba);
+        if (prueba == null) {
+            throw new RuntimeException("Prueba no encontrada");
+        }
         prueba.setComentarios(comentario);
         prueba.setFechaHoraFin(LocalDateTime.now());
         pruebasDAO.save(prueba);
@@ -112,8 +115,8 @@ public class PruebaService {
                     .append("Vehículo: ").append(prueba.getVehiculo().getPatente()).append("\n")
                     .append("Interesado: ").append(prueba.getInteresado().getNombre()).append(" ") .append(prueba.getInteresado().getApellido()).append("\n")
                     .append("Empleado: ").append(prueba.getEmpleado().getNombre()).append("").append(prueba.getEmpleado().getApellido()).append("\n")
-                    .append("Fecha de Inicio: ").append(prueba.getFecha_hora_inicio()).append("\n")
-                    .append("Fecha de Fin: ").append(prueba.getFecha_hora_fin()).append("\n");
+                    .append("Fecha de Inicio: ").append(prueba.getFechaHoraInicio()).append("\n")
+                    .append("Fecha de Fin: ").append(prueba.getFechaHoraFin()).append("\n");
         }
 
         return reporte.toString();
@@ -142,8 +145,8 @@ public class PruebaService {
                         .append("Patente Vehículo: ").append(prueba.getVehiculo().getPatente()).append("\n")
                         .append("Interesado: ").append(prueba.getInteresado().getNombre()).append(" ").append(prueba.getInteresado().getApellido()).append("\n")
                         .append("Empleado: ").append(prueba.getEmpleado().getNombre()).append(" ").append(prueba.getEmpleado().getApellido()).append("\n")
-                        .append("Fecha de Inicio: ").append(prueba.getFecha_hora_inicio()).append("\n")
-                        .append("Fecha de Fin: ").append(prueba.getFecha_hora_fin()).append("\n\n");
+                        .append("Fecha de Inicio: ").append(prueba.getFechaHoraInicio()).append("\n")
+                        .append("Fecha de Fin: ").append(prueba.getFechaHoraFin()).append("\n\n");
             }
         }
 
@@ -165,8 +168,8 @@ public class PruebaService {
             reporte.append("VEHÍCULO: ").append(prueba.getVehiculo().getPatente()).append("\n")
                     .append("INTERESADO: ").append(prueba.getInteresado().getNombre()).append("\n")
                     .append("EMPLEADO: ").append(prueba.getEmpleado().getNombre()).append("\n")
-                    .append("FECHA DE INICIO: ").append(prueba.getFecha_hora_inicio()).append("\n")
-                    .append("FECHA DE FIN: ").append(prueba.getFecha_hora_fin()).append("\n\n");
+                    .append("FECHA DE INICIO: ").append(prueba.getFechaHoraInicio()).append("\n")
+                    .append("FECHA DE FIN: ").append(prueba.getFechaHoraFin()).append("\n\n");
         }
 
         return reporte.toString();

@@ -1,5 +1,6 @@
 package com.example.tpVehiculos.controller;
 
+import com.example.tpVehiculos.controller.DTO.DTOVehiculo;
 import com.example.tpVehiculos.services.PosicionesService;
 import com.example.tpVehiculos.services.PruebaService;
 import org.springframework.http.HttpStatus;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/pruebas")
@@ -46,14 +48,14 @@ public class ReportController {
 
     // 6c - Reportes de kilometros
     @PostMapping("/reporteKm")
-    public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
+    public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
 
-        Integer vehiculoId = vehiculoDTO.getId();
+        Long vehiculoId = vehiculoDTO.getId();
         System.out.println(vehiculoId);
-        ReporteDTO reporteDTO = vehiculoDTO.getReporteDTO();
-        Timestamp fechaInicio = reporteDTO.getFechaInicio();
+        org.example.tpi_134.DTOS.DTOReporte reporteDTO = vehiculoDTO.getReporteDTO();
+        LocalDateTime fechaInicio = reporteDTO.getFechaInicio();
         System.out.println(fechaInicio);
-        Timestamp fechaFin = reporteDTO.getFechaFin();
+        LocalDateTime fechaFin = reporteDTO.getFechaFin();
         System.out.println(fechaFin);
 
         String reporte = posicionService.obtenerCantidadKilometros(vehiculoId, fechaInicio, fechaFin);
@@ -66,7 +68,7 @@ public class ReportController {
 
     //6d - Reportes de pruebas x Vehiculos
     @GetMapping("/reporteVehiculo")
-    public ResponseEntity<String> obtenerReporteIncidentesPorVehiculo(@RequestBody VehiculoDTO vehiculoDTO) {
+    public ResponseEntity<String> obtenerReporteIncidentesPorVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
         String reporte = pruebaService.obtenerPruebasXVehiculo(vehiculoDTO.getPatente());
 
         if (reporte.isEmpty()) {

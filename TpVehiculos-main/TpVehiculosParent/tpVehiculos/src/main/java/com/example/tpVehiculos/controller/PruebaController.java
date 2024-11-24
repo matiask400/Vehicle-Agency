@@ -33,7 +33,7 @@ public class PruebaController {
     public ResponseEntity<?> crearPrueba(
             @RequestParam Long idVehiculo,
             @RequestParam Long idInteresado,
-            @RequestParam Long idEmpleado) {
+            @RequestParam Integer idEmpleado) {
         try {
             Pruebas nuevaPrueba = pruebaService.crearPrueba(idVehiculo, idInteresado, idEmpleado);
             DTOPruebas DTOPruebas = new DTOPruebas(nuevaPrueba);

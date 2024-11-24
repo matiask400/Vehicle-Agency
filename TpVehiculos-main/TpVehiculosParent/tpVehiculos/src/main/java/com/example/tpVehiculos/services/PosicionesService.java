@@ -1,50 +1,134 @@
 package com.example.tpVehiculos.services;
 
-import com.example.tpVehiculos.models.Notificaciones;
-import com.example.tpVehiculos.models.Posiciones;
+import com.example.tpVehiculos.config.Configuracion;
+import com.example.tpVehiculos.config.ZonaRestringida;
+import com.example.tpVehiculos.models.*;
+import com.example.tpVehiculos.repositories.PosicionesCustomDAO;
 import com.example.tpVehiculos.repositories.PosicionesDAO;
-import com.example.tpVehiculos.repositories.NotificacionesDAO;
+import com.example.tpVehiculos.repositories.PruebasDAO;
+import com.example.tpVehiculos.repositories.VehiculosDAO;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PosicionesService {
 
-    private final PosicionesDAO posicionesRepository;
-    private final NotificacionesDAO notificationRepository;
+    private final VehiculosDAO vehiculoRepository;
+    private final PosicionesDAO posicionRepository;
+    private final ConfiguracionService configuracionService;
+    private final PruebasDAO pruebaRepository;
+    private final NotificacionService notificacionService;
+    private final PosicionesCustomDAO posicionesCustomDAO;
 
-    public PosicionesService(PosicionesDAO posicionesRepository, NotificacionesDAO notificationRepository) {
-        this.posicionesRepository = posicionesRepository;
-        this.notificationRepository = notificationRepository;
+    public PosicionesService(VehiculosDAO vehiculoRepository,
+                           PosicionesDAO posicionRepository,
+                           ConfiguracionService configuracionService,
+                           PruebasDAO pruebaRepository,
+                           NotificacionService notificacionService,
+                           PosicionesCustomDAO posicionesCustomDAO) {
+        this.vehiculoRepository = vehiculoRepository;
+        this.posicionRepository = posicionRepository;
+        this.configuracionService = configuracionService;
+        this.pruebaRepository = pruebaRepository;
+        this.notificacionService = notificacionService;
+        this.posicionesCustomDAO = posicionesCustomDAO;
     }
 
-    public void evaluarPosicion(Posiciones posicionActual, double radioPermitido, double zonaPeligrosaLat, double zonaPeligrosaLon) {
-        if (!estaDentroDelRadio(posicionActual, radioPermitido)) {
-            generarNotificacion("El vehículo ha salido del radio permitido.");
+
+    @Transactional
+    public Posiciones crearNuevaPosicion(Long id_vehiculo, Double longitud, Double latitud) {
+        try {
+            Vehiculos vehiculo = vehiculoRepository.findByID(id_vehiculo);
+
+            LocalDateTime fechaActual = LocalDateTime.now();
+
+            //BUSCAR LA PREUBA ASOCIADA AL VEHICULO
+            Pruebas prueba = pruebaRepository.findPruebaActivaByVehiculo(id_vehiculo);
+            Long numEmpleado = prueba.getEmpleado().getTelefonoContacto();
+
+            if (prueba != null){
+                System.out.println("EL VEHICULO ESTA SIENDO PROBADO");
+            } else {
+                System.out.println("EL VEHICULO NO ESTA SIENDO PROBADO");
+                return null;
+            }
+
+            Interesados interesado = prueba.getInteresado();
+            Configuracion configuracion = configuracionService.obtenerConfiguracion();
+
+            Posiciones posicion = new Posiciones(vehiculo, fechaActual, longitud, latitud);
+            System.out.println("SE CREO LA POSICION ANTES DE SER GUARDADO" + posicion);
+            posicionRepository.save(posicion);
+
+
+            if (estaDentroDelRadioAdmitido(posicion, configuracion) && !estaEnZonaRestringida(posicion, configuracion.getZonasRestringidas())) {
+                System.out.println("ESTA DENTRO DE LO PERMITIDO");
+            } else {
+                // CUANDO PASA ALGUNAS DE ESTAS COSAS DEBO AGREGAR AL CLIENTE A LA LISTA DE CLIENTES RESTRINGIDOS
+                // MANDAR NOTIFICACION
+                if(estaDentroDelRadioAdmitido(posicion,configuracion)){
+                    String mensaje = "EL VEHICULO: " + vehiculo.getPatente() + " DEBE REGRESAR INMEDIATAMENTE " + "TELEFONO : " + numEmpleado;
+                    String tipo = "FUERA DE RADIO ADMITIDO";
+                    Notificaciones notificacion = new Notificaciones(mensaje, tipo);
+                    notificacionService.enviarNotificacion(notificacion);
+                } else{
+                    String mensaje = "EL VEHICULO: " + vehiculo.getPatente() + " DEBE REGRESAR INMEDIATAMENTE " + "TELEFONO : " + numEmpleado;
+                    String tipo = "ZONA RESTRINGIDA";
+                    Notificaciones notificacion = new Notificaciones(mensaje, tipo);
+                    notificacionService.enviarNotificacion(notificacion);
+                }
+
+                System.out.println("NO ESTA DENTRO DE LO PERMITIDO");
+                interesado.setRestringido(true);
+                prueba.setInsidente(true);
+            }
+
+            return posicion;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        if (estaEnZonaPeligrosa(posicionActual, zonaPeligrosaLat, zonaPeligrosaLon)) {
-            generarNotificacion("El vehículo ha ingresado a una zona peligrosa.");
+    private boolean estaDentroDelRadioAdmitido(Posiciones posicion, Configuracion configuracion) {
+        double distancia = posicionesCustomDAO.calcularDistancia(
+                posicion.getLatitud(), posicion.getLongitud(),
+                configuracion.getCoordenadasAgencia().getLat(),
+                configuracion.getCoordenadasAgencia().getLon()
+        );
+        return distancia <= configuracion.getRadioAdmitidoKm();
+    }
+
+    private boolean estaEnZonaRestringida(Posiciones posicion, List<ZonaRestringida> zonasRestringidas) {
+        for (ZonaRestringida zona : zonasRestringidas) {
+            if (posicion.getLatitud() >= zona.getSureste().getLat() && posicion.getLatitud() <= zona.getNoroeste().getLat() &&
+                    posicion.getLongitud() >= zona.getNoroeste().getLon() && posicion.getLongitud() <= zona.getSureste().getLon()) {
+                return true;
+            }
         }
-
-        posicionesRepository.save(posicionActual);  // Guardar la posición actual
+        return false;
     }
 
-    private boolean estaDentroDelRadio(Posiciones posicion, double radioPermitido) {
-        // Aquí iría la lógica para validar el radio, por ejemplo usando la distancia entre coordenadas.
-        return true;  // Solo para el ejemplo, debes calcular la distancia.
+
+
+    public String obtenerCantidadKilometros(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin){
+        Double cantidadKilometros = posicionesCustomDAO.calcularDistanciaTotal(idVehiculo, fechaInicio, fechaFin);
+
+        Vehiculos vehiculo = vehiculoRepository.findByID(idVehiculo);
+        String patente = vehiculo.getPatente();
+
+        StringBuilder reporte = new StringBuilder();
+        reporte.append("REPORTE DE KILOMETROS PARA EL VEHICULO: " + patente  ).append("\n");
+        reporte.append("Fecha Actual :").append(LocalDateTime.from(Instant.now())).append("\n\n");
+        reporte.append("LA CANTIDAD DE KILOMETROS RECORRIDO EN PRUEBAS ES : " + cantidadKilometros);
+
+        return reporte.toString();
     }
 
-    private boolean estaEnZonaPeligrosa(Posiciones posicion, double lat, double lon) {
-        // Aquí iría la lógica para verificar si las coordenadas corresponden a una zona peligrosa.
-        return false;  // Modifica según tu lógica de zona peligrosa.
-    }
 
-    private void generarNotificacion(String mensaje) {
-        Notificaciones notificacion = new Notificaciones();
-        notificacion.setMessage(mensaje);
-        notificacion.setTimestamp(LocalDateTime.now());
-        notificationRepository.save(notificacion);
-    }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.time.LocalDateTime;
 
@@ -49,4 +51,10 @@ public class Posiciones {
         this.longitud = longitud;
     }
 
+    public Posiciones(Vehiculos vehiculo, LocalDateTime fechaHora, Double latitud, Double longitud) {
+        this.vehiculo = vehiculo;
+        this.fechaHora = fechaHora;
+        this.latitud = latitud;
+        this.longitud = longitud;
+    }
 }

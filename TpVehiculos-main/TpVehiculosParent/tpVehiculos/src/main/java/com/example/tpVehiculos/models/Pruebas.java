@@ -37,5 +37,8 @@ public class Pruebas {
 
     @Column(name = "comentarios")
     private String comentarios;
+
+    @Column(name = "estado")
+    private Boolean insidente;
 }
 // Se mantienen fechas como string por ISO 801 y no se utilizan LocalDateTime (si hay otra forma hacer)

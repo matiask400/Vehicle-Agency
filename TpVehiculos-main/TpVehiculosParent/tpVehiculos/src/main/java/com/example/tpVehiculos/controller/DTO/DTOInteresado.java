@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DTOEmpleado {
-    private Integer legajo;
+public class DTOInteresado {
+    private String documento;
 }

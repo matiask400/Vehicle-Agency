@@ -11,6 +11,5 @@ import java.util.List;
 public interface PosicionesDAO extends JpaRepository<Posiciones, Long> {
     List<Posiciones> findByVehiculoIdOrderByFechaHoraDesc(Long vehiculoId);
 
-    List<Posiciones> findByVehiculoIdAndFechaHoraBetween(Long idVehiculo, LocalDateTime inicio, LocalDateTime fin);
+    List<Posiciones> findByVehiculoIdAndFechaHoraBetween(Long vehiculoId, LocalDateTime inicio, LocalDateTime fin);
 }
-
