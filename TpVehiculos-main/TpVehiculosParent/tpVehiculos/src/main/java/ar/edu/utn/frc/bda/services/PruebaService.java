@@ -1,10 +1,10 @@
-package com.example.tpVehiculos.services;
+package ar.edu.utn.frc.bda.services;
 
-import com.example.tpVehiculos.models.Pruebas;
-import com.example.tpVehiculos.models.Interesados;
-import com.example.tpVehiculos.models.Vehiculos;
-import com.example.tpVehiculos.models.Empleados;
-import com.example.tpVehiculos.repositories.*;
+import ar.edu.utn.frc.bda.models.Pruebas;
+import ar.edu.utn.frc.bda.models.Interesados;
+import ar.edu.utn.frc.bda.models.Vehiculos;
+import ar.edu.utn.frc.bda.models.Empleados;
+import ar.edu.utn.frc.bda.repositories.*;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PruebaService {

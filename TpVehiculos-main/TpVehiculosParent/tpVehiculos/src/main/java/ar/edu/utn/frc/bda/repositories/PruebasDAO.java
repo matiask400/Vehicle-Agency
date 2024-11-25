@@ -1,7 +1,7 @@
-package com.example.tpVehiculos.repositories;
+package ar.edu.utn.frc.bda.repositories;
 
-import com.example.tpVehiculos.models.Pruebas;
-import com.example.tpVehiculos.services.ConfiguracionService;
+import ar.edu.utn.frc.bda.models.Pruebas;
+import ar.edu.utn.frc.bda.services.ConfiguracionService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;

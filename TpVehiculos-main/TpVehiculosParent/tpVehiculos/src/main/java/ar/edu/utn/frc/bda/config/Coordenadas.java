@@ -1,4 +1,4 @@
-package com.example.tpVehiculos.config;
+package ar.edu.utn.frc.bda.config;
 
 import lombok.Data;
 
@@ -6,6 +6,4 @@ import lombok.Data;
 public class Coordenadas {
     private double lat;
     private double lon;
-
-    // Getters y Setters
 }

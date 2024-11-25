@@ -1,12 +1,12 @@
-package com.example.tpVehiculos.services;
+package ar.edu.utn.frc.bda.services;
 
-import com.example.tpVehiculos.config.Configuracion;
-import com.example.tpVehiculos.config.ZonaRestringida;
-import com.example.tpVehiculos.models.*;
-import com.example.tpVehiculos.repositories.PosicionesCustomDAO;
-import com.example.tpVehiculos.repositories.PosicionesDAO;
-import com.example.tpVehiculos.repositories.PruebasDAO;
-import com.example.tpVehiculos.repositories.VehiculosDAO;
+import ar.edu.utn.frc.bda.config.Configuracion;
+import ar.edu.utn.frc.bda.config.ZonaRestringida;
+import ar.edu.utn.frc.bda.models.*;
+import ar.edu.utn.frc.bda.repositories.PosicionesCustomDAO;
+import ar.edu.utn.frc.bda.repositories.PosicionesDAO;
+import ar.edu.utn.frc.bda.repositories.PruebasDAO;
+import ar.edu.utn.frc.bda.repositories.VehiculosDAO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

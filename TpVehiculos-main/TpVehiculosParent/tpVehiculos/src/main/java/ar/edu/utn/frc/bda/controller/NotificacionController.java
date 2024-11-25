@@ -1,8 +1,8 @@
-package com.example.tpVehiculos.controller;
+package ar.edu.utn.frc.bda.controller;
 
 
-import com.example.tpVehiculos.models.Notificaciones;
-import com.example.tpVehiculos.repositories.NotificacionesDAO;
+import ar.edu.utn.frc.bda.models.Notificaciones;
+import ar.edu.utn.frc.bda.repositories.NotificacionesDAO;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

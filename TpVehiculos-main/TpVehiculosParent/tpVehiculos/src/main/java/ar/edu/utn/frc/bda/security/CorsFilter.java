@@ -1,4 +1,4 @@
-package com.example.tpVehiculos.security;
+package ar.edu.utn.frc.bda.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class CorsFilter implements Filter {
 
 
-    private static final String ALLOWED_ORIGIN = "http://localhost:8082";
+    private static final String ALLOWED_ORIGIN = "http://localhost:8080";
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {

@@ -1,6 +1,6 @@
-package com.example.tpVehiculos.controller;
+package ar.edu.utn.frc.bda.controller;
 
-import com.example.tpVehiculos.services.PruebaService;
+import ar.edu.utn.frc.bda.services.PruebaService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

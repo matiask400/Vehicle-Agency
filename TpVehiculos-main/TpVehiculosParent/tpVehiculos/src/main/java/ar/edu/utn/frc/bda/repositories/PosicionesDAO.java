@@ -1,6 +1,6 @@
-package com.example.tpVehiculos.repositories;
+package ar.edu.utn.frc.bda.repositories;
 
-import com.example.tpVehiculos.models.Posiciones;
+import ar.edu.utn.frc.bda.models.Posiciones;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

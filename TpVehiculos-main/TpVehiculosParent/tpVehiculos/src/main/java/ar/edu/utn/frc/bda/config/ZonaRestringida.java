@@ -1,4 +1,4 @@
-package com.example.tpVehiculos.config;
+package ar.edu.utn.frc.bda.config;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
-package com.example.tpVehiculos.services;
+package ar.edu.utn.frc.bda.services;
 
-import com.example.tpVehiculos.models.Notificaciones;
+import ar.edu.utn.frc.bda.models.Notificaciones;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;

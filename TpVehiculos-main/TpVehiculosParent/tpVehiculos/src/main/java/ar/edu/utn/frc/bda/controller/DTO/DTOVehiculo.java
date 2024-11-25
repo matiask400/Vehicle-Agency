@@ -1,4 +1,4 @@
-package com.example.tpVehiculos.controller.DTO;
+package ar.edu.utn.frc.bda.controller.DTO;
 
 
 import lombok.AllArgsConstructor;
@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class DTOVehiculo {
     private Integer id;
     private String patente;
-    private org.example.tpi_134.DTOS.DTOReporte dtoReporte;
+    private DTOReporte dtoReporte;
 }

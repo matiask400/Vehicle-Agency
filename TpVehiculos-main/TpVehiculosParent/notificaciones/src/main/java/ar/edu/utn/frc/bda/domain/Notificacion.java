@@ -1,4 +1,4 @@
-package org.example.notificaciones.domain;
+package ar.edu.utn.frc.bda.domain;
 
 import jakarta.persistence.*;
 

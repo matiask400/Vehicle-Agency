@@ -1,6 +1,5 @@
-package com.example.tpVehiculos.config;
+package ar.edu.utn.frc.bda.config;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

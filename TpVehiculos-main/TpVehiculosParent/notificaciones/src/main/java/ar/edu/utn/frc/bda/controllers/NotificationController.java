@@ -1,8 +1,8 @@
-package org.example.notificaciones.controllers;
+package ar.edu.utn.frc.bda.controllers;
 
-import org.example.notificaciones.DTOS.NotificacionDTO;
-import org.example.notificaciones.domain.Notificacion;
-import org.example.notificaciones.infraestructure.NotificationRepository;
+import ar.edu.utn.frc.bda.DTOS.NotificacionDTO;
+import ar.edu.utn.frc.bda.domain.Notificacion;
+import ar.edu.utn.frc.bda.infraestructure.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

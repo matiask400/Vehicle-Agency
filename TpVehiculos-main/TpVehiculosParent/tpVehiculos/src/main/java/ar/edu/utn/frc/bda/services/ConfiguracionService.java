@@ -1,6 +1,6 @@
-package com.example.tpVehiculos.services;
+package ar.edu.utn.frc.bda.services;
 
-import com.example.tpVehiculos.config.Configuracion;
+import ar.edu.utn.frc.bda.config.Configuracion;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

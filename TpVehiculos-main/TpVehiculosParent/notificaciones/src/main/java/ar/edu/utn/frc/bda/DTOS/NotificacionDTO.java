@@ -1,4 +1,4 @@
-package org.example.notificaciones.DTOS;
+package ar.edu.utn.frc.bda.DTOS;
 
 
 public class NotificacionDTO {

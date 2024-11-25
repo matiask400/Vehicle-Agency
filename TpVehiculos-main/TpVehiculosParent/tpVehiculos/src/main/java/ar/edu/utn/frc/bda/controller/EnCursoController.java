@@ -1,8 +1,8 @@
-package com.example.tpVehiculos.controller;
+package ar.edu.utn.frc.bda.controller;
 
-import com.example.tpVehiculos.controller.DTO.DTOPruebas;
-import com.example.tpVehiculos.models.Pruebas;
-import com.example.tpVehiculos.services.PruebaService;
+import ar.edu.utn.frc.bda.controller.DTO.DTOPruebas;
+import ar.edu.utn.frc.bda.models.Pruebas;
+import ar.edu.utn.frc.bda.services.PruebaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;

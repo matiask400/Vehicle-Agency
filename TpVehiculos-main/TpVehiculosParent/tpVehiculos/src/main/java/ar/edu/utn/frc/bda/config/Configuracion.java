@@ -1,4 +1,4 @@
-package com.example.tpVehiculos.config;
+package ar.edu.utn.frc.bda.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,5 @@ public class Configuracion {
     private Coordenadas coordenadasAgencia;
     private double radioAdmitidoKm;
     private List<ZonaRestringida> zonasRestringidas;
-
-    // Getters y Setters
 }
 

@@ -1,8 +1,8 @@
-package com.example.tpVehiculos.repositories;
+package ar.edu.utn.frc.bda.repositories;
 
 
-import com.example.tpVehiculos.models.Pruebas;
-import com.example.tpVehiculos.models.Vehiculos;
+import ar.edu.utn.frc.bda.models.Pruebas;
+import ar.edu.utn.frc.bda.models.Vehiculos;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;

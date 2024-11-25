@@ -1,4 +1,4 @@
-package org.example.tpi_134.DTOS;
+package ar.edu.utn.frc.bda.controller.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

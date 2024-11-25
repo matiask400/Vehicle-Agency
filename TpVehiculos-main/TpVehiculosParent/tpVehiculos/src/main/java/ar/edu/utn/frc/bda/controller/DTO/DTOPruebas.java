@@ -1,6 +1,6 @@
-package com.example.tpVehiculos.controller.DTO;
+package ar.edu.utn.frc.bda.controller.DTO;
 
-import com.example.tpVehiculos.models.Pruebas;
+import ar.edu.utn.frc.bda.models.Pruebas;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

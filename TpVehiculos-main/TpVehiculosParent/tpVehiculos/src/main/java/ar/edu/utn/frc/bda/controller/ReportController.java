@@ -1,13 +1,13 @@
-package com.example.tpVehiculos.controller;
+package ar.edu.utn.frc.bda.controller;
 
-import com.example.tpVehiculos.controller.DTO.DTOVehiculo;
-import com.example.tpVehiculos.services.PosicionesService;
-import com.example.tpVehiculos.services.PruebaService;
+import ar.edu.utn.frc.bda.controller.DTO.DTOReporte;
+import ar.edu.utn.frc.bda.controller.DTO.DTOVehiculo;
+import ar.edu.utn.frc.bda.services.PosicionesService;
+import ar.edu.utn.frc.bda.services.PruebaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @RestController
@@ -51,7 +51,7 @@ public class ReportController {
     public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
 
         Long vehiculoId = vehiculoDTO.getId().longValue();
-        org.example.tpi_134.DTOS.DTOReporte reporteDTO = vehiculoDTO.getDtoReporte();
+        DTOReporte reporteDTO = vehiculoDTO.getDtoReporte();
         LocalDateTime fechaFin = reporteDTO.getFechaFin().toLocalDateTime();
         LocalDateTime fechaInicio = reporteDTO.getFechaInicio().toLocalDateTime();
         System.out.println("Fecha inicio: " + fechaInicio);

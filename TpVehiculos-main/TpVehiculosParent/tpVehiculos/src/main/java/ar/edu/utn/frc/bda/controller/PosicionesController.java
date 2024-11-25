@@ -1,8 +1,8 @@
-package com.example.tpVehiculos.controller;
+package ar.edu.utn.frc.bda.controller;
 
-import com.example.tpVehiculos.controller.DTO.DTOPosicion;
-import com.example.tpVehiculos.models.Posiciones;
-import com.example.tpVehiculos.services.PosicionesService;
+import ar.edu.utn.frc.bda.controller.DTO.DTOPosicion;
+import ar.edu.utn.frc.bda.models.Posiciones;
+import ar.edu.utn.frc.bda.services.PosicionesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
