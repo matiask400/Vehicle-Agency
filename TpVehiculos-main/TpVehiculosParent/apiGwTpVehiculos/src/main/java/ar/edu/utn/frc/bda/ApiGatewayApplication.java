@@ -1,13 +1,15 @@
-package ar.edu.utn.frc.notificacionesVehiculos.edu.utn.bda.apunteapigwinicial;
+package ar.edu.utn.frc.bda;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApiGwApplication {
+public class ApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiGwApplication.class, args);
+		SpringApplication.run(ApiGatewayApplication.class, args);
+		System.out.println("Running: Api Gateway");
 	}
 
 }
+

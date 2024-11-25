@@ -1,8 +1,5 @@
-package ar.edu.utn.frc.notificacionesVehiculos.edu.utn.bda.apunteapigwinicial.security;
+package ar.edu.utn.frc.bda.security;
 
-
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,7 +29,6 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
 
-                        // Tratamos de hacerlo con /internal pero no pudimos
                         .pathMatchers("/api/notificaciones/advertencia").permitAll()
 
                         .pathMatchers("/api/pruebas/reporte*").hasRole("ADMIN") //BIEN

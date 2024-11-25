@@ -1,4 +1,4 @@
-package org.example.api_gateway.security;
+package ar.edu.utn.frc.bda.security;
 
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -8,9 +8,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class MyCustomFilter implements GlobalFilter {
+public class CustomFilter implements GlobalFilter {
 
-    private static final String ORIGIN_HEADER = "http://localhost:8082";
+    private static final String ORIGIN_HEADER = "http://localhost:8080";
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
