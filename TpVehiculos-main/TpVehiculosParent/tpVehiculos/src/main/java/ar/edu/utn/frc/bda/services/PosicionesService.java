@@ -85,7 +85,7 @@ public class PosicionesService {
 
                 System.out.println("NO ESTA DENTRO DE LO PERMITIDO");
                 interesado.setRestringido(true);
-                prueba.setInsidente(true);
+                prueba.setEstado(true);
             }
 
             return posicion;
@@ -124,8 +124,8 @@ public class PosicionesService {
 
         StringBuilder reporte = new StringBuilder();
         reporte.append("REPORTE DE KILOMETROS PARA EL VEHICULO: " + patente  ).append("\n");
-        reporte.append("Fecha Actual :").append(LocalDateTime.from(Instant.now())).append("\n\n");
-        reporte.append("LA CANTIDAD DE KILOMETROS RECORRIDO EN PRUEBAS ES : " + cantidadKilometros);
+        reporte.append("Fecha Actual :").append(LocalDateTime.now()).append("\n\n");
+        reporte.append("LA CANTIDAD DE KILOMETROS RECORRIDO EN PRUEBAS ES : ").append(cantidadKilometros);
 
         return reporte.toString();
     }

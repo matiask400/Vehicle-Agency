@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -13,6 +14,6 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 public class DTOReporte {
-    private Timestamp fechaInicio;
-    private Timestamp fechaFin;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
 }

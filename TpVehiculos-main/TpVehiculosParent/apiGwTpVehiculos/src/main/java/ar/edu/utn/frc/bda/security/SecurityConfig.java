@@ -31,11 +31,13 @@ public class SecurityConfig {
 
                         .pathMatchers("/api/notificaciones/advertencia").permitAll()
 
-                        .pathMatchers("/api/pruebas/reporte*").hasRole("ADMIN") //BIEN
-
                         .pathMatchers("/api/pruebas/nueva").hasAnyRole("ADMIN", "EMPLEADO") // 1 A
                         .pathMatchers("/api/pruebas/encurso").hasAnyRole("ADMIN", "EMPLEADO") // 1 B
                         .pathMatchers("/api/pruebas/finalizar").hasAnyRole("ADMIN", "EMPLEADO") // 1 C
+
+                        .pathMatchers("/api/pruebas/reportesIncidentes*").hasRole("ADMIN") // 1 f 1
+                        .pathMatchers("/api/pruebas/reporteKm").hasRole("ADMIN") // 1 f 3
+                        .pathMatchers("/api/pruebas/reporteVehiculo").hasRole("ADMIN") // 1 f 4
 
                         .pathMatchers("/api/notificaciones/promocion").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
 

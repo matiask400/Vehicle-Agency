@@ -69,7 +69,7 @@ public class PruebasDAO {
     // Consultar pruebas con incidente
     public List<Pruebas> obtenerPruebasIncidente() {
         return em.createQuery(
-                "SELECT p FROM Pruebas p WHERE p.estado = 1",
+                "SELECT p FROM Pruebas p WHERE p.estado IS NULL",
                 Pruebas.class
         ).getResultList();
     }

@@ -25,8 +25,9 @@ public class PosicionesCustomDAO {
     }
 
     // Obtener posiciones de un vehículo en un rango de fechas
+
     public List<Posiciones> obtenerPosiciones(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        String query = "SELECT p FROM Posicion p WHERE p.vehiculo.id = :idVehiculo " +
+        String query = "SELECT p FROM Posiciones p WHERE p.vehiculo.id = :idVehiculo " +
                 "AND p.fechaHora BETWEEN :fechaInicio AND :fechaFin";
         return em.createQuery(query, Posiciones.class)
                 .setParameter("idVehiculo", idVehiculo)

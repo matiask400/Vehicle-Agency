@@ -22,7 +22,7 @@ public class ReportController {
         this.posicionService = posicionService;
     }
 
-    // 1 f - Reportes de incidentes
+    // 1 f 1 - Reportes de incidentes
     @GetMapping("/reportesIncidentes")
     public ResponseEntity<String> obtenerReportesIncidentes() {
         try {
@@ -30,11 +30,11 @@ public class ReportController {
             return ResponseEntity.ok(reportes);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al obtener los reportes de incidentes.");
+                    .body("Error al obtener los reportes de incidentes: " + e.getMessage());
         }
     }
 
-    //6b - Reportes de incidentes x empleado
+    // 1 f 2 - Reportes de incidentes x empleado
     @GetMapping("/reportesIncidentes/{legajoEmpleado}")
     public ResponseEntity<String> obtenerReporteIncidentesPorEmpleado(@PathVariable int legajoEmpleado) {
         String reporte = pruebaService.obtenerPruebasConIncidentesPorLegajo(legajoEmpleado);
@@ -43,14 +43,14 @@ public class ReportController {
     }
 
 
-    // 6c - Reportes de kilometros
+    // 1 f 3 - Reportes de kilometros
     @PostMapping("/reporteKm")
     public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
 
         Long vehiculoId = vehiculoDTO.getId().longValue();
         DTOReporte reporteDTO = vehiculoDTO.getDtoReporte();
-        LocalDateTime fechaFin = reporteDTO.getFechaFin().toLocalDateTime();
-        LocalDateTime fechaInicio = reporteDTO.getFechaInicio().toLocalDateTime();
+        LocalDateTime fechaFin = reporteDTO.getFechaFin();
+        LocalDateTime fechaInicio = reporteDTO.getFechaInicio();
         System.out.println("Fecha inicio: " + fechaInicio);
         System.out.println("Fecha fin: " + fechaFin);
         System.out.println("Vehiculo id: " + vehiculoId);
@@ -65,7 +65,7 @@ public class ReportController {
     }
 
 
-    //6d - Reportes de pruebas x Vehiculos
+    // 1 f 4 - Reportes de pruebas x Vehiculos
     @GetMapping("/reporteVehiculo")
     public ResponseEntity<String> obtenerReporteIncidentesPorVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
         String reporte = pruebaService.obtenerPruebasXVehiculo(vehiculoDTO.getPatente());

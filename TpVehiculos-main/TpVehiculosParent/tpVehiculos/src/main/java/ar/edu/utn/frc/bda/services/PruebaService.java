@@ -13,6 +13,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -104,6 +106,9 @@ public class PruebaService {
     public String obtenerPruebasConIncidentes() {
         List<Pruebas> pruebas = pruebasDAO.obtenerPruebasIncidente();
         StringBuilder reporte = new StringBuilder();
+        if (pruebas == null) {
+            pruebas = new ArrayList<>();
+        }
 
         reporte.append("\tReporte de Incidentes (pruebas donde se excedieron los límites establecidos)\n\n");
         reporte.append("Fecha: ").append(LocalDateTime.now()).append("\n\n");
@@ -125,12 +130,14 @@ public class PruebaService {
     public String obtenerPruebasConIncidentesPorLegajo(Integer legajo) {
         List<Pruebas> pruebas = empleadosDAO.obtenerPruebasIncidentePorLegajo(legajo);
         StringBuilder reporte = new StringBuilder();
+        if (pruebas == null) {
+            pruebas = new ArrayList<>();
+        }
 
         // Título y fecha actual
         reporte.append("\tDetalles de incidentes por empleado\n");
         reporte.append("Legajo: ").append(legajo).append("\n");
-        reporte.append("Fecha Actual: ").append(LocalDateTime.from(Instant.now())).append("\n\n");
-
+        reporte.append("Fecha Actual: ").append(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())).append("\n\n");
         // Información sobre las pruebas correspondientes al empleado
         reporte.append("Pruebas: \n");
 
@@ -155,6 +162,9 @@ public class PruebaService {
     public String obtenerPruebasXVehiculo(String patente) {
         List<Pruebas> pruebas = vehiculosDAO.obtenerPruebasFinalizadasPorVehiculo(patente);
         StringBuilder reporte = new StringBuilder();
+        if (pruebas == null) {
+            pruebas = new ArrayList<>();
+        }
 
         // Título y fecha actual
         reporte.append("REPORTE DE PRUEBAS PARA EL VEHICULO: "+ patente).append("\n");
