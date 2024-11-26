@@ -8,8 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// 1 c
 @RestController
-@RequestMapping("/api/vehiculos/pruebas")
+@RequestMapping("/api/pruebas")
 public class FinalizarPruebaController {
 
     private final PruebaService pruebaService;

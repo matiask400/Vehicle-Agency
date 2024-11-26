@@ -18,23 +18,23 @@ import java.util.List;
 @Service
 public class PosicionesService {
 
-    private final VehiculosDAO vehiculoRepository;
-    private final PosicionesDAO posicionRepository;
-    private final ConfiguracionService configuracionService;
-    private final PruebasDAO pruebaRepository;
-    private final NotificacionService notificacionService;
+    private final VehiculosDAO vehiculosDAO;
+    private final PosicionesDAO posicionesDAO;
+    private final ConfiguracionService configuracionDAO;
+    private final PruebasDAO pruebasDAO;
     private final PosicionesCustomDAO posicionesCustomDAO;
+    private final NotificacionService notificacionService;
 
-    public PosicionesService(VehiculosDAO vehiculoRepository,
-                           PosicionesDAO posicionRepository,
-                           ConfiguracionService configuracionService,
-                           PruebasDAO pruebaRepository,
+    public PosicionesService(VehiculosDAO vehiculosDAO,
+                           PosicionesDAO posicionesDAO,
+                           ConfiguracionService configuracionDAO,
+                           PruebasDAO pruebasDAO,
                            NotificacionService notificacionService,
                            PosicionesCustomDAO posicionesCustomDAO) {
-        this.vehiculoRepository = vehiculoRepository;
-        this.posicionRepository = posicionRepository;
-        this.configuracionService = configuracionService;
-        this.pruebaRepository = pruebaRepository;
+        this.vehiculosDAO = vehiculosDAO;
+        this.posicionesDAO = posicionesDAO;
+        this.configuracionDAO = configuracionDAO;
+        this.pruebasDAO = pruebasDAO;
         this.notificacionService = notificacionService;
         this.posicionesCustomDAO = posicionesCustomDAO;
     }
@@ -43,27 +43,27 @@ public class PosicionesService {
     @Transactional
     public Posiciones crearNuevaPosicion(Long id_vehiculo, Double longitud, Double latitud) {
         try {
-            Vehiculos vehiculo = vehiculoRepository.findByID(id_vehiculo);
+            Vehiculos vehiculo = vehiculosDAO.findByID(id_vehiculo);
 
             LocalDateTime fechaActual = LocalDateTime.now();
 
             //BUSCAR LA PREUBA ASOCIADA AL VEHICULO
-            Pruebas prueba = pruebaRepository.findPruebaActivaByVehiculo(id_vehiculo);
+            Pruebas prueba = pruebasDAO.findPruebaActivaByVehiculo(id_vehiculo);
             Long numEmpleado = prueba.getEmpleado().getTelefonoContacto();
 
             if (prueba != null){
-                System.out.println("EL VEHICULO ESTA SIENDO PROBADO");
+                System.out.println("El vehículo está siendo probado actualmente.");
             } else {
-                System.out.println("EL VEHICULO NO ESTA SIENDO PROBADO");
+                System.err.println("El vehículo no está siendo probado actualmente.");
                 return null;
             }
 
             Interesados interesado = prueba.getInteresado();
-            Configuracion configuracion = configuracionService.obtenerConfiguracion();
+            Configuracion configuracion = configuracionDAO.obtenerConfiguracion();
 
             Posiciones posicion = new Posiciones(vehiculo, fechaActual, longitud, latitud);
             System.out.println("SE CREO LA POSICION ANTES DE SER GUARDADO" + posicion);
-            posicionRepository.save(posicion);
+            posicionesDAO.save(posicion);
 
 
             if (estaDentroDelRadioAdmitido(posicion, configuracion) && !estaEnZonaRestringida(posicion, configuracion.getZonasRestringidas())) {
@@ -119,7 +119,7 @@ public class PosicionesService {
     public String obtenerCantidadKilometros(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin){
         Double cantidadKilometros = posicionesCustomDAO.calcularDistanciaTotal(idVehiculo, fechaInicio, fechaFin);
 
-        Vehiculos vehiculo = vehiculoRepository.findByID(idVehiculo);
+        Vehiculos vehiculo = vehiculosDAO.findByID(idVehiculo);
         String patente = vehiculo.getPatente();
 
         StringBuilder reporte = new StringBuilder();

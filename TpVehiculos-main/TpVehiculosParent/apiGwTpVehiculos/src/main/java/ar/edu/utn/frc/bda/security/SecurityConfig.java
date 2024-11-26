@@ -33,9 +33,9 @@ public class SecurityConfig {
 
                         .pathMatchers("/api/pruebas/reporte*").hasRole("ADMIN") //BIEN
 
-                        .pathMatchers("/api/pruebas/listar").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
-                        .pathMatchers("/api/pruebas/crear").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
-                        .pathMatchers("/api/pruebas/finalizar").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
+                        .pathMatchers("/api/pruebas/nueva").hasAnyRole("ADMIN", "EMPLEADO") // 1 A
+                        .pathMatchers("/api/pruebas/encurso").hasAnyRole("ADMIN", "EMPLEADO") // 1 B
+                        .pathMatchers("/api/pruebas/finalizar").hasAnyRole("ADMIN", "EMPLEADO") // 1 C
 
                         .pathMatchers("/api/notificaciones/promocion").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
 

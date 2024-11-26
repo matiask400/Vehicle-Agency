@@ -61,15 +61,15 @@ public class PruebaService {
 
             Vehiculos vehiculo = vehiculosDAO.findByID(idVehiculo);
             if (vehiculo == null) {
-                throw new RuntimeException("Prueba no encontrada");
+                throw new RuntimeException("Vehiculo no encontrada.");
             }
             Empleados empleado = empleadosDAO.findByLegajo(idEmpleado);
             if (empleado == null) {
-                throw new RuntimeException("Prueba no encontrada");
+                throw new RuntimeException("Empleado no encontrado.");
             }
             Pruebas pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
             if (pruebaActiva == null) {
-                throw new RuntimeException("El vehiculo ya esta siendo activado");
+                throw new RuntimeException("Hay pruebas activas para el vehículo.");
             }
             Pruebas nuevaPrueba = new Pruebas();
             nuevaPrueba.setVehiculo(vehiculo);
@@ -88,6 +88,7 @@ public class PruebaService {
         return pruebasDAO.findPruebasEnCurso(fechaHora);
     }
 
+    // 1 C Fianliza una prueba con un comentario
     @Transactional
     public void finalizarPrueba(Long idPrueba, String comentario) {
         Pruebas prueba = pruebasDAO.findByID(idPrueba);
@@ -99,21 +100,20 @@ public class PruebaService {
         pruebasDAO.save(prueba);
     }
 
+    // Reporte I Incidentes (pruebas donde se excedieron los límites establecidos)
     public String obtenerPruebasConIncidentes() {
         List<Pruebas> pruebas = pruebasDAO.obtenerPruebasIncidente();
         StringBuilder reporte = new StringBuilder();
 
-        // Título y fecha actual
-        reporte.append("===== Reporte de Incidentes =====\n");
-        reporte.append("Fecha Actual: ").append(Timestamp.from(Instant.now())).append("\n\n");
+        reporte.append("\tReporte de Incidentes (pruebas donde se excedieron los límites establecidos)\n\n");
+        reporte.append("Fecha: ").append(LocalDateTime.now()).append("\n\n");
 
-        // Lista de pruebas
-        reporte.append("Pruebas:\n");
+        reporte.append("Pruebas con incidentes:\n");
         for (Pruebas prueba : pruebas) {
             reporte.append("------------------------------\n")
                     .append("Vehículo: ").append(prueba.getVehiculo().getPatente()).append("\n")
-                    .append("Interesado: ").append(prueba.getInteresado().getNombre()).append(" ") .append(prueba.getInteresado().getApellido()).append("\n")
-                    .append("Empleado: ").append(prueba.getEmpleado().getNombre()).append("").append(prueba.getEmpleado().getApellido()).append("\n")
+                    .append("Interesado: ").append(prueba.getInteresado().getNombre()).append(" ").append(prueba.getInteresado().getApellido()).append("\n")
+                    .append("Empleado: ").append(prueba.getEmpleado().getNombre()).append(" ").append(prueba.getEmpleado().getApellido()).append("\n")
                     .append("Fecha de Inicio: ").append(prueba.getFechaHoraInicio()).append("\n")
                     .append("Fecha de Fin: ").append(prueba.getFechaHoraFin()).append("\n");
         }
@@ -121,23 +121,22 @@ public class PruebaService {
         return reporte.toString();
     }
 
-
-    // REPORTE II - Obtener las pruebas con incidentes por empleado
+    // REPORTE II - Detalles de incidentes por empleado
     public String obtenerPruebasConIncidentesPorLegajo(Integer legajo) {
         List<Pruebas> pruebas = empleadosDAO.obtenerPruebasIncidentePorLegajo(legajo);
         StringBuilder reporte = new StringBuilder();
 
         // Título y fecha actual
-        reporte.append("===== Reporte de Incidentes =====\n");
-        reporte.append("Empleado con Legajo: ").append(legajo).append("\n");
-        reporte.append("Fecha Actual: ").append(Timestamp.from(Instant.now())).append("\n\n");
+        reporte.append("\tDetalles de incidentes por empleado\n");
+        reporte.append("Legajo: ").append(legajo).append("\n");
+        reporte.append("Fecha Actual: ").append(LocalDateTime.from(Instant.now())).append("\n\n");
 
         // Información sobre las pruebas correspondientes al empleado
-        reporte.append("Pruebas Correspondientes al Empleado (Legajo: ").append(legajo).append("):\n");
+        reporte.append("Pruebas: \n");
 
-        // Lista de pruebas
+        // Detalles de incidentes por empleado
         if (pruebas.isEmpty()) {
-            reporte.append("No se encontraron incidentes para este empleado.\n");
+            reporte.append("No se encontraron incidentes para el empleado.\n");
         } else {
             for (Pruebas prueba : pruebas) {
                 reporte.append("------------------------------\n")

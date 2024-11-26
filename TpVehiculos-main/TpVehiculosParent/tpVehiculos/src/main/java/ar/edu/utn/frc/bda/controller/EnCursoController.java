@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * REST controller for managing vehicle tests in progress.
+ * REST controller for managing vehicle tests in progress. 1b
  */
 @RestController
-@RequestMapping("/api/vehiculos/encurso")
+@RequestMapping("/api/pruebas/encurso")
 public class EnCursoController {
 
     @Autowired

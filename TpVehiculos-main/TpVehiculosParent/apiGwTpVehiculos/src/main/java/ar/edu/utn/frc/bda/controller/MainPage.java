@@ -11,5 +11,5 @@ public class MainPage {
 
     @GetMapping("")
     public String hello() {
-        return "¡Esta es una prueba base del API Gateway!";}
+        return "¡Test!";}
 }

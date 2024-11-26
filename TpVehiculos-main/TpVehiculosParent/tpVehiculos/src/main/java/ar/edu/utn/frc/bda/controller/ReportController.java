@@ -22,16 +22,13 @@ public class ReportController {
         this.posicionService = posicionService;
     }
 
-    // 6a - Reportes de incidentes
+    // 1 f - Reportes de incidentes
     @GetMapping("/reportesIncidentes")
     public ResponseEntity<String> obtenerReportesIncidentes() {
         try {
-            // Llamada al servicio para obtener las pruebas como un String
             String reportes = pruebaService.obtenerPruebasConIncidentes();
-            // Retorna el reporte con un código HTTP 200
             return ResponseEntity.ok(reportes);
         } catch (Exception e) {
-            // Manejo de errores, retorna un mensaje con código 500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al obtener los reportes de incidentes.");
         }

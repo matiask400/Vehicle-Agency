@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * Rest controller for managing `Pruebas` related endpoints.
  */
 @RestController
-@RequestMapping("/api/vehiculos/pruebas")
+@RequestMapping("/api/pruebas/nueva")
 public class PruebaController {
 
     @Autowired
