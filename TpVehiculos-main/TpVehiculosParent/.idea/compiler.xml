@@ -7,14 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="notificacionesVehiculos" />
         <module name="notificaciones" />
         <module name="apunte-api-gw-tpVehiculos" />
         <module name="tpVehiculos" />
+        <module name="tpi-gateway" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="notificacionesVehiculos" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -23,6 +22,7 @@
       <module name="notificaciones" options="-parameters" />
       <module name="notificacionesVehiculos" options="-parameters" />
       <module name="tpVehiculos" options="-parameters" />
+      <module name="tpi-gateway" options="-parameters" />
     </option>
   </component>
 </project>
