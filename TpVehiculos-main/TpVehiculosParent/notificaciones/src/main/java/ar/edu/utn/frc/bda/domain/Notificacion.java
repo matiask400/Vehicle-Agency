@@ -1,9 +1,15 @@
 package ar.edu.utn.frc.bda.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="notificaciones")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notificacion {
 
     @Id
@@ -16,29 +22,6 @@ public class Notificacion {
     public Notificacion(String mensaje, String tipo) {
         this.mensaje = mensaje;
         this.tipo = tipo;
-    }
-
-    public Notificacion() {
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     @Override

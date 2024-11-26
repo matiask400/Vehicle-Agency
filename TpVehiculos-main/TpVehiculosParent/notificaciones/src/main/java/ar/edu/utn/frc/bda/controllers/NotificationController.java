@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/notificaciones")
 public class NotificationController {
 
     private final NotificationRepository notificationRepository;
@@ -21,7 +21,7 @@ public class NotificationController {
         this.notificationRepository = notificationRepository;
     }
 
-    @PostMapping("/notificaciones/advertencia")
+    @PostMapping("/advertencia")
     public ResponseEntity<String> saveNotification(@RequestBody Notificacion notificacion) {
        try {
            notificationRepository.save(notificacion);
@@ -31,7 +31,7 @@ public class NotificationController {
        }
     }
 
-    @PostMapping("/notificaciones/promocion")
+    @PostMapping("/promocion")
     public ResponseEntity<String> saveNotification(@RequestBody NotificacionDTO notificaciondto) {
         try {
             String mensaje =  notificaciondto.getMensaje();

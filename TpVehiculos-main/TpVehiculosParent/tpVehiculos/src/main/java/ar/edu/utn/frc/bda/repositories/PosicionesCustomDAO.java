@@ -1,5 +1,7 @@
 package ar.edu.utn.frc.bda.repositories;
 
+import ar.edu.utn.frc.bda.client.ApiClient;
+import ar.edu.utn.frc.bda.controller.DTO.DTOAgencia;
 import ar.edu.utn.frc.bda.models.Posiciones;
 import ar.edu.utn.frc.bda.services.ConfiguracionService;
 import jakarta.persistence.EntityManager;
@@ -37,44 +39,46 @@ public class PosicionesCustomDAO {
     }
 
     // Calcular distancia total recorrida por un vehículo
-    public Double calcularDistanciaTotal(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        List<Posiciones> posiciones = obtenerPosiciones(idVehiculo, fechaInicio, fechaFin);
+    private boolean calcularDistanciaTotal(double latVehiculo, double lonVehiculo) {
+        DTOAgencia agencia = obtenerInformacionAgencia();
+        double latitudAgencia = agencia.getCoordenadasAgencia().getLat();
+        double longitudAgencia = agencia.getCoordenadasAgencia().getLon();
+        int radioPermitido = agencia.getRadioAdmintido();
 
-        if (posiciones == null || posiciones.isEmpty()) return 0.0;
-
-        // Coordenadas iniciales de la agencia
-        var configuracion = configuracionService.obtenerConfiguracion();
-        double latActual = configuracion.getCoordenadasAgencia().getLat();
-        double lonActual = configuracion.getCoordenadasAgencia().getLon();
-
-        double distanciaTotal = 0.0;
-
-        for (Posiciones posicion : posiciones) {
-            double latNueva = posicion.getLatitud();
-            double lonNueva = posicion.getLongitud();
-
-            // Calcula la distancia entre dos puntos geográficos
-            distanciaTotal += calcularDistancia(latActual, lonActual, latNueva, lonNueva);
-
-            // Actualiza las coordenadas actuales
-            latActual = latNueva;
-            lonActual = lonNueva;
-        }
-
-        return distanciaTotal;
+        double distancia = Math.sqrt(Math.pow(latVehiculo - latitudAgencia, 2) + Math.pow(lonVehiculo - longitudAgencia, 2));
+        System.out.println("distanca" + distancia + "ra" + radioPermitido);
+        return distancia < radioPermitido;
     }
 
-    // Fórmula de Haversine para calcular la distancia entre dos puntos geográficos
-    public double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
-        final int RADIO_TIERRA = 6371; // Radio de la Tierra en kilómetros
 
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+    // Fórmula de Haversine para calcular la distancia entre dos puntos geográficos
+    public boolean calcularDistancia(double latVehiculo, double lonVehiculo) {
+        DTOAgencia agencia = obtenerInformacionAgencia();
+        double latitud =  agencia.getCoordenadasAgencia().getLat();
+        double longitud = agencia.getCoordenadasAgencia().getLon();
+        int radioPermitido = agencia.getRadioAdmintido();
+
+        double lat1Rad = Math.toRadians(latVehiculo);
+        double lon1Rad = Math.toRadians(lonVehiculo);
+        double lat2Rad = Math.toRadians(latitud);
+        double lon2Rad = Math.toRadians(longitud);
+
+        double deltaLat = lat2Rad - lat1Rad;
+        double deltaLon = lon2Rad - lon1Rad;
+
+        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
+                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
+
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        return RADIO_TIERRA * c;
+        double distance = 6371 * c;
+
+        return distance < radioPermitido;
+    }
+    private DTOAgencia obtenerInformacionAgencia() {
+        ApiClient apiClient = new ApiClient();
+        return apiClient.getAgenciaInfo();
     }
 }

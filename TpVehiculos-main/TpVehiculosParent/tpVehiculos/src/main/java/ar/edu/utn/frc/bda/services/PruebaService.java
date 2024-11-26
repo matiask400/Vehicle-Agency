@@ -1,5 +1,7 @@
 package ar.edu.utn.frc.bda.services;
 
+import ar.edu.utn.frc.bda.client.ApiClient;
+import ar.edu.utn.frc.bda.controller.DTO.DTOAgencia;
 import ar.edu.utn.frc.bda.models.Pruebas;
 import ar.edu.utn.frc.bda.models.Interesados;
 import ar.edu.utn.frc.bda.models.Vehiculos;
@@ -182,4 +184,6 @@ public class PruebaService {
 
         return reporte.toString();
     }
+
+
 }
