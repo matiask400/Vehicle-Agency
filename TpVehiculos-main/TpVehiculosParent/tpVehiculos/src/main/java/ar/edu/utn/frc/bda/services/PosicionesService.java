@@ -11,7 +11,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -125,7 +124,7 @@ public class PosicionesService {
         StringBuilder reporte = new StringBuilder();
         reporte.append("REPORTE DE KILOMETROS PARA EL VEHICULO: " + patente  ).append("\n");
         reporte.append("Fecha Actual :").append(LocalDateTime.now()).append("\n\n");
-        reporte.append("LA CANTIDAD DE KILOMETROS RECORRIDO EN PRUEBAS ES : ").append(cantidadKilometros);
+        reporte.append("LA CANTIDAD DE KILOMETROS RECORRIDO EN PRUEBAS ES : " + cantidadKilometros);
 
         return reporte.toString();
     }

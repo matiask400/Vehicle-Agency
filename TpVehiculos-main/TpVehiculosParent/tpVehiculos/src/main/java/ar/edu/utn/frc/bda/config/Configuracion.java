@@ -14,5 +14,6 @@ public class Configuracion {
     private Coordenadas coordenadasAgencia;
     private double radioAdmitidoKm;
     private List<ZonaRestringida> zonasRestringidas;
+
 }
 

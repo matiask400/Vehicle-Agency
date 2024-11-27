@@ -6,6 +6,7 @@ import ar.edu.utn.frc.bda.services.PosicionesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/pruebas")
 public class PosicionesController {
@@ -13,15 +14,12 @@ public class PosicionesController {
     private final PosicionesService posicionService;
 
     public PosicionesController(PosicionesService posicionService) {
-
         this.posicionService = posicionService;
     }
 
-    // 4 - Endpoint para guardar una posicion
     @PostMapping("/posicion")
     public ResponseEntity<String> guardarPosicion(@RequestBody DTOPosicion posicionDTO) {
         try {
-            // Llama al servicio para crear una nueva posición
             Posiciones posicion = posicionService.crearNuevaPosicion(
                     posicionDTO.getVehiculoId(),
                     posicionDTO.getLongitud(),

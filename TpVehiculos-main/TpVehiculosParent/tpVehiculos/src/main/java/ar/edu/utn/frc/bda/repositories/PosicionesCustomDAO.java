@@ -1,6 +1,7 @@
 package ar.edu.utn.frc.bda.repositories;
 
 import ar.edu.utn.frc.bda.client.ApiClient;
+import ar.edu.utn.frc.bda.config.Configuracion;
 import ar.edu.utn.frc.bda.controller.DTO.DTOAgencia;
 import ar.edu.utn.frc.bda.models.Posiciones;
 import ar.edu.utn.frc.bda.services.ConfiguracionService;
@@ -26,57 +27,64 @@ public class PosicionesCustomDAO {
         return posicion;
     }
 
-    // Obtener posiciones de un vehículo en un rango de fechas
+    public Double calcularDistanciaTotal(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin ) {
+        List<Posiciones> posiciones = obtenerPosiciones(idVehiculo,fechaInicio,fechaFin);
+        System.out.println("POSCIONES" + posiciones);
 
+
+        // Coordenadas iniciales de la agencia
+        Configuracion configuracion = configuracionService.obtenerConfiguracion();
+        double latActual = configuracion.getCoordenadasAgencia().getLat();
+        double lonActual = configuracion.getCoordenadasAgencia().getLon();
+
+        double distanciaTotal = 0.0;
+
+        for (Posiciones posicion : posiciones) {
+            double latNueva = posicion.getLatitud();
+            double lonNueva = posicion.getLongitud();
+
+            // Calcula la distancia entre la posición actual y la nueva
+            double distancia = calcularDistancia(latActual, lonActual, latNueva, lonActual);
+            System.out.println(distancia);
+
+            // Suma la distancia al total
+            distanciaTotal += distancia;
+
+            // Actualiza las coordenadas actuales para la siguiente iteración
+            latActual = latNueva;
+            lonActual = lonNueva;
+        }
+
+        return distanciaTotal;
+    }
+
+
+    // Vehiculo y un tiempo determinado
     public List<Posiciones> obtenerPosiciones(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
-        String query = "SELECT p FROM Posiciones p WHERE p.vehiculo.id = :idVehiculo " +
-                "AND p.fechaHora BETWEEN :fechaInicio AND :fechaFin";
-        return em.createQuery(query, Posiciones.class)
-                .setParameter("idVehiculo", idVehiculo)
-                .setParameter("fechaInicio", fechaInicio)
-                .setParameter("fechaFin", fechaFin)
-                .getResultList();
+        try {
+            // Consulta JPQL para obtener las posiciones del vehículo en el rango de fechas
+            String query = "SELECT p FROM Posicion p WHERE p.vehiculo.id = :idVehiculo " +
+                    "AND p.fechaHora BETWEEN :fechaInicio AND :fechaFin";
+
+            return em.createQuery(query, Posiciones.class)
+                    .setParameter("idVehiculo", idVehiculo)
+                    .setParameter("fechaInicio", fechaInicio)
+                    .setParameter("fechaFin", fechaFin)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // Calcular distancia total recorrida por un vehículo
-    private boolean calcularDistanciaTotal(double latVehiculo, double lonVehiculo) {
-        DTOAgencia agencia = obtenerInformacionAgencia();
-        double latitudAgencia = agencia.getCoordenadasAgencia().getLat();
-        double longitudAgencia = agencia.getCoordenadasAgencia().getLon();
-        int radioPermitido = agencia.getRadioAdmintido();
-
-        double distancia = Math.sqrt(Math.pow(latVehiculo - latitudAgencia, 2) + Math.pow(lonVehiculo - longitudAgencia, 2));
-        System.out.println("distanca" + distancia + "ra" + radioPermitido);
-        return distancia < radioPermitido;
+    public double calcularDistancia(double lat1, double lon1, double lat2, double lon2) {
+        // Distancia euclídea en un plano
+        double dLat = lat2 - lat1;
+        double dLon = lon2 - lon1;
+        return Math.sqrt(dLat * dLat + dLon * dLon);
     }
 
 
-
-    // Fórmula de Haversine para calcular la distancia entre dos puntos geográficos
-    public boolean calcularDistancia(double latVehiculo, double lonVehiculo) {
-        DTOAgencia agencia = obtenerInformacionAgencia();
-        double latitud =  agencia.getCoordenadasAgencia().getLat();
-        double longitud = agencia.getCoordenadasAgencia().getLon();
-        int radioPermitido = agencia.getRadioAdmintido();
-
-        double lat1Rad = Math.toRadians(latVehiculo);
-        double lon1Rad = Math.toRadians(lonVehiculo);
-        double lat2Rad = Math.toRadians(latitud);
-        double lon2Rad = Math.toRadians(longitud);
-
-        double deltaLat = lat2Rad - lat1Rad;
-        double deltaLon = lon2Rad - lon1Rad;
-
-        double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
-                Math.cos(lat1Rad) * Math.cos(lat2Rad) *
-                        Math.sin(deltaLon / 2) * Math.sin(deltaLon / 2);
-
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        double distance = 6371 * c;
-
-        return distance < radioPermitido;
-    }
     private DTOAgencia obtenerInformacionAgencia() {
         ApiClient apiClient = new ApiClient();
         return apiClient.getAgenciaInfo();

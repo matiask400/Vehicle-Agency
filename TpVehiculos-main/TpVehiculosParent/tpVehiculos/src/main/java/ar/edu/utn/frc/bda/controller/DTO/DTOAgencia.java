@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class DTOAgencia {
     private Coordenadas coordenadasAgencia;
-    private int radioAdmintido;
+    private int radioAdmitido;
     private List<ZonaRestringida> zonasRestringidas;
 }
