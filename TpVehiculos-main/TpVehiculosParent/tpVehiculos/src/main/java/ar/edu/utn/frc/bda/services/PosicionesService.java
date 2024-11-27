@@ -114,7 +114,7 @@ public class PosicionesService {
     }
 
 
-
+    // REPORTE III - Cantidad de kilómetros de prueba que recorrió un vehículo en un período determinado
     public String obtenerCantidadKilometros(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin){
         Double cantidadKilometros = posicionesCustomDAO.calcularDistanciaTotal(idVehiculo, fechaInicio, fechaFin);
 

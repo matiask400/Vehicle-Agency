@@ -57,7 +57,7 @@ public class PruebaService {
                                Integer idEmpleado) {
         try {
             Interesados interesado = interesadoDAO.findById(idInteresado)
-                    .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
+                    .orElseThrow(() -> new RuntimeException("El interesado no se ha encontrado"));
 
             if (interesado.isRestringido() || interesado.getFechaVencimientoLicencia().isBefore(LocalDate.now())) {
                 throw new RuntimeException("Interesado con licencia vencida o restringido.");
@@ -80,7 +80,7 @@ public class PruebaService {
             nuevaPrueba.setInteresado(interesado);
             nuevaPrueba.setEmpleado(empleado);
             nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
-            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(9999, 1, 1, 0, 0)); // Default end date for ongoing test
+            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(9999, 1, 1, 0, 0));
             pruebasDAO.save(nuevaPrueba);
             return nuevaPrueba;
         } catch (Exception e) {
@@ -136,14 +136,11 @@ public class PruebaService {
             pruebas = new ArrayList<>();
         }
 
-        // Título y fecha actual
         reporte.append("\tDetalles de incidentes por empleado\n");
         reporte.append("Legajo: ").append(legajo).append("\n");
         reporte.append("Fecha Actual: ").append(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault())).append("\n\n");
-        // Información sobre las pruebas correspondientes al empleado
         reporte.append("Pruebas: \n");
 
-        // Detalles de incidentes por empleado
         if (pruebas.isEmpty()) {
             reporte.append("No se encontraron incidentes para el empleado.\n");
         } else {
@@ -168,11 +165,9 @@ public class PruebaService {
             pruebas = new ArrayList<>();
         }
 
-        // Título y fecha actual
         reporte.append("REPORTE DE PRUEBAS PARA EL VEHICULO: "+ patente).append("\n");
         reporte.append("Fecha Actual :").append(Timestamp.from(Instant.now())).append("\n\n");
 
-        // Lista de pruebas
         reporte.append("Pruebas:\n");
         for (Pruebas prueba : pruebas) {
             reporte.append("VEHÍCULO: ").append(prueba.getVehiculo().getPatente()).append("\n")

@@ -22,7 +22,7 @@ public class ReportController {
         this.posicionService = posicionService;
     }
 
-    // 1 f 1 - Reportes de incidentes
+    //  Reporte I Incidentes (pruebas donde se excedieron los límites establecidos)
     @GetMapping("/reportesIncidentes")
     public ResponseEntity<String> obtenerReportesIncidentes() {
         try {
@@ -34,7 +34,7 @@ public class ReportController {
         }
     }
 
-    // 1 f 2 - Reportes de incidentes x empleado
+    // REPORTE II - Detalles de incidentes por empleado
     @GetMapping("/reportesIncidentes/{legajoEmpleado}")
     public ResponseEntity<String> obtenerReporteIncidentesPorEmpleado(@PathVariable int legajoEmpleado) {
         String reporte = pruebaService.obtenerPruebasConIncidentesPorLegajo(legajoEmpleado);
@@ -42,8 +42,7 @@ public class ReportController {
         return ResponseEntity.ok(reporte);
     }
 
-
-    // 1 f 3 - Reportes de kilometros
+    // REPORTE III - Cantidad de kilómetros de prueba que recorrió un vehículo en un período determinado
     @PostMapping("/reporteKm")
     public ResponseEntity<String> obtenerKilometrosXVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
 
@@ -65,7 +64,7 @@ public class ReportController {
     }
 
 
-    // 1 f 4 - Reportes de pruebas x Vehiculos
+    // REPORTE IV - Detalle de las pruebas para un vehiculo
     @GetMapping("/reporteVehiculo")
     public ResponseEntity<String> obtenerReporteIncidentesPorVehiculo(@RequestBody DTOVehiculo vehiculoDTO) {
         String reporte = pruebaService.obtenerPruebasXVehiculo(vehiculoDTO.getPatente());
