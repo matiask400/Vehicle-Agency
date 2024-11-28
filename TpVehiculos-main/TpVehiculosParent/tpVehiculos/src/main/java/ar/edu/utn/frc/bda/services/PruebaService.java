@@ -86,7 +86,7 @@ public class PruebaService {
             pruebasDAO.save(nuevaPrueba);
             return nuevaPrueba;
         } catch (Exception e) {
-            throw new RuntimeException("Error al crear la prueba: " + e.getMessage());
+            throw new RuntimeException("Error al crear la prueba: " + e.getMessage(), e);
         }
     }
 

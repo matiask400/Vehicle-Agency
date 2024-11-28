@@ -31,6 +31,9 @@ public class PosicionesCustomDAO {
         List<Posiciones> posiciones = obtenerPosiciones(idVehiculo,fechaInicio,fechaFin);
         System.out.println("POSCIONES" + posiciones);
 
+        if (posiciones == null || posiciones.isEmpty()) {
+            return 0.0;
+        }
 
         // Coordenadas iniciales de la agencia
         Configuracion configuracion = configuracionService.obtenerConfiguracion();
@@ -63,7 +66,7 @@ public class PosicionesCustomDAO {
     public List<Posiciones> obtenerPosiciones(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         try {
             // Consulta JPQL para obtener las posiciones del vehículo en el rango de fechas
-            String query = "SELECT p FROM Posicion p WHERE p.vehiculo.id = :idVehiculo " +
+            String query = "SELECT p FROM Posiciones p WHERE p.vehiculo.id = :idVehiculo " +
                     "AND p.fechaHora BETWEEN :fechaInicio AND :fechaFin";
 
             return em.createQuery(query, Posiciones.class)
