@@ -109,7 +109,7 @@ public class PruebaService {
         if (prueba == null) {
             throw new RuntimeException("Prueba no encontrada");
         }
-        prueba.setEstado(null);
+        prueba.setEstado(false);
         prueba.setComentarios(comentario);
         prueba.setFechaHoraFin(LocalDateTime.now());
         pruebasDAO.save(prueba);

@@ -44,10 +44,11 @@ public class PruebasDAO {
 
     public List<Pruebas> findPruebasEnCurso(LocalDateTime fechaHora) {
         return em.createQuery(
-                "SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)",
-                Pruebas.class
-        ).setParameter("fechaHora", fechaHora)
-         .getResultList();
+                        "SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)",
+                        Pruebas.class
+                )
+                .setParameter("fechaHora", fechaHora)
+                .getResultList();
     }
 
     public List<Pruebas> findByEmpleadoLegajo(Long legajoEmpleado) {
