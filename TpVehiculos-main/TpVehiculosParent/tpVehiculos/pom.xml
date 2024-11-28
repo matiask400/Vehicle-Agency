@@ -82,7 +82,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Lombok (para reducir código repetitivo) -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

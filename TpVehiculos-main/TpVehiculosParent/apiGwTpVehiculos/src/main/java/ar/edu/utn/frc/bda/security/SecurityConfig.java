@@ -29,21 +29,21 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
 
+                        // .pathMatchers("/api/**").permitAll() // para debug
+
                         .pathMatchers("/api/pruebas/nueva").hasAnyRole("ADMIN", "EMPLEADO") // 1 A
                         .pathMatchers("/api/pruebas/encurso").hasAnyRole("ADMIN", "EMPLEADO") // 1 B
                         .pathMatchers("/api/pruebas/finalizar").hasAnyRole("ADMIN", "EMPLEADO") // 1 C
 
-                        .pathMatchers("/api/pruebas/reportesIncidentes*").hasRole("ADMIN") // 1 f 1
+                        .pathMatchers("/api/pruebas/reportesIncidentes").hasRole("ADMIN") // 1 f 1
+                        .pathMatchers("/api/pruebas/reportesIncidentes/**").hasRole("ADMIN") // 1 f 1
                         .pathMatchers("/api/pruebas/reporteKm").hasRole("ADMIN") // 1 f 3
                         .pathMatchers("/api/pruebas/reporteVehiculo").hasRole("ADMIN") // 1 f 4
 
-                        .pathMatchers("/api/notificaciones/advertencia").permitAll()
-
-                        .pathMatchers("/api/notificaciones/promocion").hasAnyRole("ADMIN", "EMPLEADO") //BIEN
+                        .pathMatchers("/api/notificaciones/advertencia").permitAll() // 1 d
+                        .pathMatchers("/api/notificaciones/promocion").hasAnyRole("ADMIN", "EMPLEADO") //1 e
 
                         .pathMatchers("/api/pruebas/posicion").hasRole("VEHICULO")
-
-                        // .pathMatchers("/api/pruebas/**").permitAll() // para que no deniegue las peticiones del servicio pruebas
 
                         .anyExchange().authenticated()
                 )
