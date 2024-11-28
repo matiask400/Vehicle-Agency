@@ -3,10 +3,12 @@ package ar.edu.utn.frc.bda.repositories;
 import ar.edu.utn.frc.bda.models.Pruebas;
 import ar.edu.utn.frc.bda.services.ConfiguracionService;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.NonUniqueResultException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -25,23 +27,28 @@ public class PruebasDAO {
         try {
             TypedQuery<Pruebas> query = em.createQuery(
                     "SELECT p FROM Pruebas p " +
-                            "WHERE p.vehiculo.id = :idVehiculo AND p.fechaHoraFin IS NULL AND p.estado IS NOT NULL OR p.estado = 1",
+                            "WHERE p.vehiculo.id = :idVehiculo " +
+                            "AND (p.estado = true AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora))",
                     Pruebas.class
             );
             query.setParameter("idVehiculo", idVehiculo);
+            query.setParameter("fechaHora", LocalDateTime.now());
             return query.getSingleResult();
-        }
-        catch (Exception e) {
+        } catch (NoResultException e) {
+            // No hay pruebas activas para este vehículo
             return null;
+        } catch (NonUniqueResultException e) {
+            throw new RuntimeException("Se encontraron múltiples pruebas activas para este vehículo. Verificar integridad de datos.");
         }
     }
 
     public List<Pruebas> findPruebasEnCurso(LocalDateTime fechaHora) {
         return em.createQuery(
-                "SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)",
-                Pruebas.class
-        ).setParameter("fechaHora", fechaHora)
-         .getResultList();
+                        "SELECT p FROM Pruebas p WHERE p.fechaHoraInicio <= :fechaHora AND (p.fechaHoraFin IS NULL OR p.fechaHoraFin > :fechaHora)",
+                        Pruebas.class
+                )
+                .setParameter("fechaHora", fechaHora)
+                .getResultList();
     }
 
     public List<Pruebas> findByEmpleadoLegajo(Long legajoEmpleado) {

@@ -52,10 +52,9 @@ public class PruebaService {
     }
 
     @Transactional
-    public Pruebas crearPrueba(Long idVehiculo,
-                               Long idInteresado,
-                               Integer idEmpleado) {
+    public Pruebas crearPrueba(Long idVehiculo, Long idInteresado, Integer idEmpleado) {
         try {
+            // Validar interesado
             Interesados interesado = interesadoDAO.findById(idInteresado)
                     .orElseThrow(() -> new RuntimeException("Interesado no encontrado"));
 
@@ -63,28 +62,37 @@ public class PruebaService {
                 throw new RuntimeException("Interesado con licencia vencida o restringido.");
             }
 
+            // Validar vehículo
             Vehiculos vehiculo = vehiculosDAO.findByID(idVehiculo);
             if (vehiculo == null) {
-                throw new RuntimeException("Vehiculo no encontrada.");
+                throw new RuntimeException("Vehículo no encontrado.");
             }
+
+            // Validar empleado
             Empleados empleado = empleadosDAO.findByLegajo(idEmpleado);
             if (empleado == null) {
                 throw new RuntimeException("Empleado no encontrado.");
             }
+
+            // Verificar si ya existe una prueba activa para el vehículo
             Pruebas pruebaActiva = pruebasDAO.findPruebaActivaByVehiculo(idVehiculo);
-            System.out.println("Prueba activa: " + pruebaActiva);
-            if (pruebaActiva != null ) {
-                throw new RuntimeException("Hay pruebas activas para el vehículo.");
+            if (pruebaActiva != null) {
+                throw new RuntimeException("Ya existe una prueba activa para este vehículo.");
             }
+
+            // Crear nueva prueba
             Pruebas nuevaPrueba = new Pruebas();
             nuevaPrueba.setVehiculo(vehiculo);
             nuevaPrueba.setInteresado(interesado);
             nuevaPrueba.setEmpleado(empleado);
             nuevaPrueba.setFechaHoraInicio(LocalDateTime.now());
-            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(9999, 1, 1, 0, 0)); // Default end date for ongoing test
-            nuevaPrueba.setEstado(true);
+            nuevaPrueba.setFechaHoraFin(LocalDateTime.of(9999, 1, 1, 0, 0)); // Fin inicial como null para indicar prueba activa
+            nuevaPrueba.setEstado(true); // Estado activo
+
+            // Guardar la nueva prueba
             pruebasDAO.save(nuevaPrueba);
             return nuevaPrueba;
+
         } catch (Exception e) {
             throw new RuntimeException("Error al crear la prueba: " + e.getMessage(), e);
         }
@@ -101,7 +109,7 @@ public class PruebaService {
         if (prueba == null) {
             throw new RuntimeException("Prueba no encontrada");
         }
-        prueba.setEstado(null);
+        prueba.setEstado(false);
         prueba.setComentarios(comentario);
         prueba.setFechaHoraFin(LocalDateTime.now());
         pruebasDAO.save(prueba);
