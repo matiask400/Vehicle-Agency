@@ -27,7 +27,7 @@ public class EmpleadosDAO {
 
     public List<Pruebas> obtenerPruebasIncidentePorLegajo(Integer legajo) {
         try {
-            return em.createQuery("SELECT p FROM Prueba p WHERE p.inicidente = TRUE AND p.empleado.legajo = :legajo", Pruebas.class)
+            return em.createQuery("SELECT p FROM Pruebas p WHERE p.estado = TRUE AND p.empleado.legajo = :legajo", Pruebas.class)
                     .setParameter("legajo", legajo)
                     .getResultList();
         } catch (Exception e) {
