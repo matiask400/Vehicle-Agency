@@ -23,5 +23,16 @@ public class Marcas {
     @OneToMany(mappedBy = "marca")
     private List<Modelos> modelos;
 
+    @Override
+    public String toString() {
+        return "Marcas{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                '}';
+    }
+
+    public Marcas(String nombre) {
+        this.nombre = nombre;
+    }
 
 }

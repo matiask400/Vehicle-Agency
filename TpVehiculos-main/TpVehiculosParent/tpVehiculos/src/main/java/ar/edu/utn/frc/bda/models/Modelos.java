@@ -28,4 +28,17 @@ public class Modelos {
     @OneToMany(mappedBy = "modelo") //nombre coinccide con clase
     private List<Vehiculos> vehiculos;
 
+    @Override
+    public String toString() {
+        return "Modelos{" +
+                "id=" + id +
+                ", nombre='" + descripcion + '\'' +
+                ", marca=" + (marca != null ? marca.getId() : "null") +
+                '}';
+    }
+
+    public Modelos(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
 }
