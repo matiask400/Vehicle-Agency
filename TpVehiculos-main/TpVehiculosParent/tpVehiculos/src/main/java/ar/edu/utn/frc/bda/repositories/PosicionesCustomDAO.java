@@ -27,8 +27,8 @@ public class PosicionesCustomDAO {
         return posicion;
     }
 
-    public Double calcularDistanciaTotal(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin ) {
-        List<Posiciones> posiciones = obtenerPosiciones(idVehiculo,fechaInicio,fechaFin);
+    public Double calcularDistanciaTotal(Long idVehiculo) {
+        List<Posiciones> posiciones = obtenerPosiciones(idVehiculo);
         System.out.println("POSCIONES" + posiciones);
 
         if (posiciones == null || posiciones.isEmpty()) {
@@ -63,16 +63,13 @@ public class PosicionesCustomDAO {
 
 
     // Vehiculo y un tiempo determinado
-    public List<Posiciones> obtenerPosiciones(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+    public List<Posiciones> obtenerPosiciones(Long idVehiculo) {
         try {
             // Consulta JPQL para obtener las posiciones del vehículo en el rango de fechas
-            String query = "SELECT p FROM Posiciones p WHERE p.vehiculo.id = :idVehiculo " +
-                    "AND p.fechaHora BETWEEN :fechaInicio AND :fechaFin";
+            String query = "SELECT p FROM Posiciones p WHERE p.vehiculo.id = :idVehiculo ";
 
             return em.createQuery(query, Posiciones.class)
                     .setParameter("idVehiculo", idVehiculo)
-                    .setParameter("fechaInicio", fechaInicio)
-                    .setParameter("fechaFin", fechaFin)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace();

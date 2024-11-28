@@ -57,7 +57,7 @@ public class ReportController {
         System.out.println("DTO: " + reporteDTO);
 
 
-        String reporte = posicionService.obtenerCantidadKilometros(vehiculoId, fechaInicio, fechaFin);
+        String reporte = posicionService.obtenerCantidadKilometros(vehiculoId);
         if (reporte.isEmpty()) {
             return ResponseEntity.ok("NO HAY PRUEBAS PARA DICHO VEHÍCULO");
         }

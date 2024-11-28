@@ -20,7 +20,7 @@ public class VehiculosDAO {
     // Métodos
     public Vehiculos findByPatente(String patente) {
         try {
-            TypedQuery<Vehiculos> query = em.createQuery("SELECT v FROM Vehiculo v WHERE v.patente = :patente", Vehiculos.class);
+            TypedQuery<Vehiculos> query = em.createQuery("SELECT v FROM Vehiculos v WHERE v.patente = :patente", Vehiculos.class);
             query.setParameter("patente", patente);
             return query.getSingleResult();
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class VehiculosDAO {
     //Pruebas realizadas para un vehiculo
     public List<Pruebas> obtenerPruebasFinalizadasPorVehiculo(String patente) {
         try {
-            return em.createQuery("SELECT p FROM Prueba p WHERE p.fecha_hora_fin IS NOT NULL AND p.vehiculo.patente = :patente", Pruebas.class)
+            return em.createQuery("SELECT p FROM Pruebas p WHERE p.vehiculo.patente = :patente", Pruebas.class)
                     .setParameter("patente", patente)
                     .getResultList();
         } catch (Exception e) {

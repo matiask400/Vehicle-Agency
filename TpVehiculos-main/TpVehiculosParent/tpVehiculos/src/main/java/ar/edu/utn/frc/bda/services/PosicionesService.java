@@ -115,8 +115,8 @@ public class PosicionesService {
 
 
 
-    public String obtenerCantidadKilometros(Long idVehiculo, LocalDateTime fechaInicio, LocalDateTime fechaFin){
-        Double cantidadKilometros = posicionesCustomDAO.calcularDistanciaTotal(idVehiculo, fechaInicio, fechaFin);
+    public String obtenerCantidadKilometros(Long idVehiculo){
+        Double cantidadKilometros = posicionesCustomDAO.calcularDistanciaTotal(idVehiculo);
 
         if (cantidadKilometros == null) {
             cantidadKilometros = 0.0;
