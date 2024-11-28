@@ -4,6 +4,7 @@ import ar.edu.utn.frc.bda.models.Pruebas;
 import ar.edu.utn.frc.bda.services.ConfiguracionService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,13 +22,18 @@ public class PruebasDAO {
     private final ConfiguracionService configuracionService;
 
     public Pruebas findPruebaActivaByVehiculo(Long idVehiculo) {
-        return em.createQuery(
-                "SELECT p FROM Pruebas p WHERE p.vehiculo.id = :idVehiculo AND p.fechaHoraFin IS NULL",
-                Pruebas.class
-        ).setParameter("idVehiculo", idVehiculo)
-         .getResultStream()
-         .findFirst()
-         .orElse(null);
+        try {
+            TypedQuery<Pruebas> query = em.createQuery(
+                    "SELECT p FROM Pruebas p " +
+                            "WHERE p.vehiculo.id = :idVehiculo AND p.fechaHoraFin IS NULL AND p.estado IS NOT NULL OR p.estado = 1",
+                    Pruebas.class
+            );
+            query.setParameter("idVehiculo", idVehiculo);
+            return query.getSingleResult();
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public List<Pruebas> findPruebasEnCurso(LocalDateTime fechaHora) {
